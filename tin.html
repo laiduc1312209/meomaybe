@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fshare.vn - Thuyết Trình Chuyên Nghiệp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #1a1a1a; }
+        
+        .presentation-container {
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100px) scale(0.95);
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .slide.prev {
+            transform: translateX(-100px) scale(0.95);
+        }
+
+        .slide-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 4rem 5rem;
+            text-align: center;
+        }
+
+        .counter-badge {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="presentation-container">
+        <div id="slide-container">
+            <!-- Slide 1: Title -->
+            <div class="slide active">
+                <div class="slide-content bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
+                    <svg class="w-20 h-20 mb-6 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <h1 class="text-7xl font-bold mb-4"><p>Nhóm 1 xin giới thiệu :
+                    </p>Fshare.vn</h1>
+                    <p class="text-3xl font-light mb-2">Nền tảng lưu trữ & chia sẻ tệp hàng đầu Việt Nam</p>
+                    <p class="text-xl opacity-90">Giải pháp đáng tin cậy cho cá nhân và doanh nghiệp</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Team Members -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+                    <h2 class="text-5xl font-bold mb-12">Các Thành Viên Nhóm</h2>
+                    <div class="grid grid-cols-6 gap-3 w-full max-w-6xl">
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">1</div>
+                            <h3 class="font-semibold text-sm">Bùi Hà Nam Anh</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">2</div>
+                            <h3 class="font-semibold text-sm">Phạm Phương Anh</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-amber-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">3</div>
+                            <h3 class="font-semibold text-sm">Phạm Tuấn Anh</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-rose-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">4</div>
+                            <h3 class="font-semibold text-sm">Nguyễn Minh Cương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-violet-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">5</div>
+                            <h3 class="font-semibold text-sm">Trần Duy Cương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">6</div>
+                            <h3 class="font-semibold text-sm">Nguyễn Văn Duy</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-indigo-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">7</div>
+                            <h3 class="font-semibold text-sm">Bùi Nhật Dương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-pink-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">8</div>
+                            <h3 class="font-semibold text-sm">Hà Ngọc Thái Dương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-teal-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">9</div>
+                            <h3 class="font-semibold text-sm">Lưu Đức Thái Dương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">10</div>
+                            <h3 class="font-semibold text-sm">Nguyễn Thị Ánh Dương</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
+                            <div class="w-12 h-12 bg-lime-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">11</div>
+                            <h3 class="font-semibold text-sm">Đức</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: About Fshare -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Giới Thiệu Về Fshare</h2>
+                    <div class="grid grid-cols-3 gap-8 w-full max-w-5xl">
+                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-blue-500">
+                            <div class="text-4xl mb-4">🌐</div>
+                            <h3 class="font-bold text-lg mb-3 text-slate-800">Lịch Sử & Phát Triển</h3>
+                            <p class="text-gray-700 leading-relaxed">Fshare được thành lập vào năm 2010, trở thành giải pháp lưu trữ đám mây hàng đầu tại Việt Nam với hơn 10 triệu người dùng.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-purple-500">
+                            <div class="text-4xl mb-4">👥</div>
+                            <h3 class="font-bold text-lg mb-3 text-slate-800">Người Dùng & Thị Trường</h3>
+                            <p class="text-gray-700 leading-relaxed">Được sử dụng bởi cá nhân, doanh nghiệp, sinh viên và các tổ chức khác tại Việt Nam và khu vực Đông Nam Á.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-rose-500">
+                            <div class="text-4xl mb-4">🏆</div>
+                            <h3 class="font-bold text-lg mb-3 text-slate-800">Cam Kết & Giá Trị</h3>
+                            <p class="text-gray-700 leading-relaxed">Cam kết bảo vệ dữ liệu, cung cấp dịch vụ ổn định 24/7 và liên tục cải thiện tính năng để đáp ứng nhu cầu thị trường.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Key Features -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+                    <h2 class="text-5xl font-bold mb-12">Tính Năng Nổi Bật</h2>
+                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">⚡</div>
+                            <h3 class="font-bold text-lg mb-2">Tốc Độ Cực Nhanh</h3>
+                            <p class="text-sm text-gray-300">Máy chủ tại Việt Nam đảm bảo tốc độ tải lên/tải xuống vượt trội.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">🛡️</div>
+                            <h3 class="font-bold text-lg mb-2">An Toàn & Bảo Mật</h3>
+                            <p class="text-sm text-gray-300">Mã hóa dữ liệu, bảo vệ tài khoản đa lớp, tuân thủ tiêu chuẩn.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">💾</div>
+                            <h3 class="font-bold text-lg mb-2">Dung Lượng Khổng Lồ</h3>
+                            <p class="text-sm text-gray-300">Từ 50GB miễn phí đến hàng TB cho các gói cao cấp.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">🤝</div>
+                            <h3 class="font-bold text-lg mb-2">Chia Sẻ Dễ Dàng</h3>
+                            <p class="text-sm text-gray-300">Tạo link chia sẻ, quản lý quyền truy cập linh hoạt.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">📱</div>
+                            <h3 class="font-bold text-lg mb-2">Đa Nền Tảng</h3>
+                            <p class="text-sm text-gray-300">Web, iOS, Android - truy cập từ bất kỳ thiết bị.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">💳</div>
+                            <h3 class="font-bold text-lg mb-2">Thanh Toán Linh Hoạt</h3>
+                            <p class="text-sm text-gray-300">MoMo, thẻ ngân hàng, SMS với gói nâng cấp linh hoạt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Pricing -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Các Gói Cước & Giá Dịch Vụ</h2>
+                    <div class="w-full max-w-5xl overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                                    <th class="p-4 text-left font-bold">Tên Gói</th>
+                                    <th class="p-4 text-left font-bold">Dung Lượng</th>
+                                    <th class="p-4 text-left font-bold">Tốc Độ</th>
+                                    <th class="p-4 text-left font-bold">Quảng Cáo</th>
+                                    <th class="p-4 text-right font-bold">Giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b bg-white">
+                                    <td class="p-4 font-semibold text-blue-600">Free</td>
+                                    <td class="p-4">50 GB</td>
+                                    <td class="p-4">Giới hạn</td>
+                                    <td class="p-4">Có</td>
+                                    <td class="p-4 text-right font-bold text-green-600">Miễn phí</td>
+                                </tr>
+                                <tr class="border-b bg-slate-50">
+                                    <td class="p-4 font-semibold text-amber-600">VIP</td>
+                                    <td class="p-4">300 GB</td>
+                                    <td class="p-4">Cao (≤ 5 MB/s)</td>
+                                    <td class="p-4">Không</td>
+                                    <td class="p-4 text-right font-bold">90.000đ/tháng</td>
+                                </tr>
+                                <tr class="border-b bg-white">
+                                    <td class="p-4 font-semibold text-purple-600">Storage 1 TB</td>
+                                    <td class="p-4">1 TB</td>
+                                    <td class="p-4">Rất cao (≤ 10 MB/s)</td>
+                                    <td class="p-4">Không</td>
+                                    <td class="p-4 text-right font-bold">450.000đ/3 tháng</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="p-4 font-semibold text-green-600">Directlink</td>
+                                    <td class="p-4">-</td>
+                                    <td class="p-4">Cao</td>
+                                    <td class="p-4">Không</td>
+                                    <td class="p-4 text-right font-bold">100.000đ/200GB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Pros & Cons -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800">
+                    <h2 class="text-5xl font-bold text-white mb-12">Ưu & Nhược Điểm</h2>
+                    <div class="grid grid-cols-2 gap-8 w-full max-w-5xl">
+                        <div class="bg-green-500/20 backdrop-blur p-8 rounded-lg border border-green-400/50">
+                            <h3 class="font-bold text-2xl text-green-400 mb-6">✅ Ưu Điểm</h3>
+                            <ul class="space-y-3 text-white text-left text-sm">
+                                <li>• Tốc độ cực nhanh với máy chủ Việt Nam</li>
+                                <li>• Dung lượng miễn phí lớn (50 GB)</li>
+                                <li>• Thanh toán đa dạng và linh hoạt</li>
+                                <li>• Chia sẻ dễ dàng với quản lý quyền hạn</li>
+                                <li>• Giao diện 100% tiếng Việt</li>
+                                <li>• Hỗ trợ 24/7 tuyệt vời</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-500/20 backdrop-blur p-8 rounded-lg border border-red-400/50">
+                            <h3 class="font-bold text-2xl text-red-400 mb-6">⚠️ Nhược Điểm</h3>
+                            <ul class="space-y-3 text-white text-left text-sm">
+                                <li>• File vùng xám bị xóa sau 30 ngày</li>
+                                <li>• Gói Free có tốc độ tải giới hạn</li>
+                                <li>• Lệ phí cho nội dung vi phạm</li>
+                                <li>• Không có chính sách khôi phục file xóa</li>
+                                <li>• Giới hạn kích thước upload gói Free</li>
+                                <li>• Tùy chỉnh link chia sẻ hạn chế</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: How to Use -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Hướng Dẫn Sử Dụng</h2>
+                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
+                        <div class="bg-white p-7 rounded-lg shadow-lg">
+                            <div class="text-4xl mb-4">📤</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Tải Lên (Upload)</h3>
+                            <ol class="space-y-2 text-left text-gray-700 text-sm">
+                                <li>1. Đăng nhập tài khoản</li>
+                                <li>2. Nhấn nút "Tải lên"</li>
+                                <li>3. Chọn file từ máy</li>
+                                <li>4. Chờ hoàn tất</li>
+                            </ol>
+                        </div>
+                        <div class="bg-white p-7 rounded-lg shadow-lg">
+                            <div class="text-4xl mb-4">📥</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Tải Xuống (Download)</h3>
+                            <ol class="space-y-2 text-left text-gray-700 text-sm">
+                                <li>1. Tìm file cần tải</li>
+                                <li>2. Nhấn "Tải xuống"</li>
+                                <li>3. Chọn vị trí lưu</li>
+                                <li>4. Chờ hoàn tất</li>
+                            </ol>
+                        </div>
+                        <div class="bg-white p-7 rounded-lg shadow-lg">
+                            <div class="text-4xl mb-4">🔗</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Chia Sẻ (Share)</h3>
+                            <ol class="space-y-2 text-left text-gray-700 text-sm">
+                                <li>1. Chọn file cần chia</li>
+                                <li>2. Nhấn "Lấy Link"</li>
+                                <li>3. Sao chép link</li>
+                                <li>4. Gửi cho người khác</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Comparison -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+                    <h2 class="text-5xl font-bold mb-12">So Sánh Với Đối Thủ</h2>
+                    <div class="w-full max-w-5xl overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-blue-600 to-purple-600">
+                                    <th class="p-3 text-left font-bold">Tiêu Chí</th>
+                                    <th class="p-3 text-center font-bold">Fshare</th>
+                                    <th class="p-3 text-center font-bold">Google Drive</th>
+                                    <th class="p-3 text-center font-bold">Dropbox</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-white/20">
+                                    <td class="p-3 font-semibold">Dung lượng Free</td>
+                                    <td class="p-3 text-center text-green-400 font-bold">50 GB</td>
+                                    <td class="p-3 text-center">15 GB</td>
+                                    <td class="p-3 text-center">2 GB</td>
+                                </tr>
+                                <tr class="border-b border-white/20">
+                                    <td class="p-3 font-semibold">Tốc độ tại VN</td>
+                                    <td class="p-3 text-center text-green-400 font-bold">⚡⚡⚡ Cực nhanh</td>
+                                    <td class="p-3 text-center">⚡ Chậm</td>
+                                    <td class="p-3 text-center">⚡ Chậm</td>
+                                </tr>
+                                <tr class="border-b border-white/20">
+                                    <td class="p-3 font-semibold">Thanh toán Việt</td>
+                                    <td class="p-3 text-center text-green-400 font-bold">✅ Có</td>
+                                    <td class="p-3 text-center">❌ Không</td>
+                                    <td class="p-3 text-center">❌ Không</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Giao diện Việt</td>
+                                    <td class="p-3 text-center text-green-400 font-bold">✅ 100%</td>
+                                    <td class="p-3 text-center">✅ Có</td>
+                                    <td class="p-3 text-center">✅ Có</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Security -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Bảo Mật & Quyền Riêng Tư</h2>
+                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
+                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-red-500">
+                            <div class="text-4xl mb-3">🔒</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Mã Hóa Dữ Liệu</h3>
+                            <ul class="space-y-2 text-gray-700 text-sm">
+                                <li>✓ SSL/TLS cho tất cả</li>
+                                <li>✓ Mã hóa end-to-end</li>
+                                <li>✓ Bảo vệ mật khẩu</li>
+                                <li>✓ Xác thực 2FA</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-blue-500">
+                            <div class="text-4xl mb-3">🛡️</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Chính Sách Bảo Vệ</h3>
+                            <ul class="space-y-2 text-gray-700 text-sm">
+                                <li>✓ Quét virus tự động</li>
+                                <li>✓ Phát hiện độc hại</li>
+                                <li>✓ Tuân thủ GDPR</li>
+                                <li>✓ Không bán dữ liệu</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-green-500">
+                            <div class="text-4xl mb-3">📋</div>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">Quyền Riêng Tư</h3>
+                            <ul class="space-y-2 text-gray-700 text-sm">
+                                <li>✓ Chính sách rõ ràng</li>
+                                <li>✓ Kiểm soát dữ liệu</li>
+                                <li>✓ Yêu cầu xóa ngay</li>
+                                <li>✓ Minh bạch cao</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Use Cases -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+                    <h2 class="text-5xl font-bold mb-12">Trường Hợp Sử Dụng Thực Tế</h2>
+                    <div class="grid grid-cols-2 gap-8 w-full max-w-5xl">
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">👨‍💼</div>
+                            <h3 class="font-bold text-lg mb-2">Cho Doanh Nghiệp</h3>
+                            <p class="text-sm text-gray-300">Lưu trữ tài liệu công ty, quản lý nhân sự với dung lượng lớn.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">🎓</div>
+                            <h3 class="font-bold text-lg mb-2">Cho Sinh Viên</h3>
+                            <p class="text-sm text-gray-300">Lưu trữ đồ án, bài tập, tài liệu học tập.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">📸</div>
+                            <h3 class="font-bold text-lg mb-2">Cho Nhà Sáng Tạo</h3>
+                            <p class="text-sm text-gray-300">Lưu trữ ảnh, video 4K với dung lượng lớn.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                            <div class="text-3xl mb-3">🎬</div>
+                            <h3 class="font-bold text-lg mb-2">Cho Nhà Phát Triển</h3>
+                            <p class="text-sm text-gray-300">Chia sẻ source code, bản dựng phần mềm.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Future Roadmap -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Kế Hoạch Phát Triển Tương Lai</h2>
+                    <div class="space-y-4 w-full max-w-4xl">
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
+                            <h3 class="font-bold text-lg text-blue-600 mb-2">🚀 Năm 2024-2025</h3>
+                            <p class="text-gray-700">Cải thiện tốc độ với CDN toàn cầu, hỗ trợ sync tự động, AI tổ chức file, nâng cấp bảo mật blockchain.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-purple-500">
+                            <h3 class="font-bold text-lg text-purple-600 mb-2">🎯 Mục Tiêu Chiến Lược</h3>
+                            <p class="text-gray-700">Trở thành dịch vụ lưu trữ đám mây hàng đầu Đông Nam Á, mở rộng sang các quốc gia khác.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-green-500">
+                            <h3 class="font-bold text-lg text-green-600 mb-2">✨ Các Tính Năng Sắp Tới</h3>
+                            <p class="text-gray-700">Video editing trực tiếp, collaborative workspace, AI transcript, AR viewer cho hình 3D.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Conclusion -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
+                    <h2 class="text-6xl font-bold mb-8">Kết Luận</h2>
+                    <div class="max-w-3xl space-y-8">
+                        <div class="bg-white/15 backdrop-blur-md p-8 rounded-lg border border-white/30">
+                            <h3 class="text-2xl font-bold mb-3">Fshare - Giải Pháp Hoàn Hảo</h3>
+                            <p class="text-lg leading-relaxed">Với tốc độ cực nhanh, dung lượng lớn, giao diện Việt, thanh toán linh hoạt và hỗ trợ tuyệt vời, Fshare là lựa chọn hàng đầu cho lưu trữ và chia sẻ dữ liệu tại Việt Nam.</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
+                                <div class="text-3xl font-bold mb-1">50 GB</div>
+                                <p class="text-sm">Miễn phí ngay</p>
+                            </div>
+                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
+                                <div class="text-3xl font-bold mb-1">⚡⚡⚡</div>
+                                <p class="text-sm">Tốc độ tối ưu</p>
+                            </div>
+                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
+                                <div class="text-3xl font-bold mb-1">✅</div>
+                                <p class="text-sm">An toàn tin cậy</p>
+                            </div>
+                        </div>
+                        <p class="text-xl text-center font-semibold">Hãy bắt đầu tại <span class="text-yellow-300">fshare.vn</span> ngay hôm nay!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Q&A -->
+            <div class="slide">
+                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
+                    <div class="text-center">
+                        <div class="text-8xl mb-6">💻</div>
+                        <h1 class="text-5xl font-bold text-slate-800 mb-4">Và sau đây là</h1>
+                        <p class="text-xl text-gray-600">Phần thực hành của nhóm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Counter -->
+        <div class="counter-badge">
+            <span id="slide-counter">1</span> / <span id="total-slides">13</span>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="prev-btn" class="control-btn" title="Slide trước (Chuột phải)">❮</button>
+            <button id="next-btn" class="control-btn" title="Slide tiếp (Click)">❯</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const slideCounter = document.getElementById('slide-counter');
+            const totalSlides = document.getElementById('total-slides');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            let currentSlide = 0;
+            const total = slides.length;
+            totalSlides.textContent = total;
+
+            function showSlide(newIndex) {
+                const oldSlide = slides[currentSlide];
+                const newSlide = slides[newIndex];
+
+                // Determine direction for animation
+                const isNext = newIndex > currentSlide || (newIndex === 0 && currentSlide === total - 1);
+
+                if (isNext) {
+                    oldSlide.classList.remove('active');
+                    oldSlide.classList.add('prev');
+                    newSlide.classList.remove('prev');
+                    newSlide.classList.add('active');
+                } else {
+                    oldSlide.classList.remove('active');
+                    newSlide.classList.add('prev');
+                    newSlide.classList.add('active');
+                }
+
+                currentSlide = newIndex;
+                slideCounter.textContent = currentSlide + 1;
+            }
+
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % total;
+                showSlide(nextIndex);
+            }
+
+            function prevSlide() {
+                const prevIndex = (currentSlide - 1 + total) % total;
+                showSlide(prevIndex);
+            }
+            
+            // Event Listeners
+            document.body.addEventListener('click', (e) => {
+                if (e.target.closest('.control-btn')) return;
+                nextSlide();
+            });
+
+            document.body.addEventListener('contextmenu', e => {
+                e.preventDefault();
+                prevSlide();
+            });
+
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                    prevSlide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
