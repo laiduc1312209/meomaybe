@@ -116,7 +116,8 @@
         <div id="status-message" class="text-center mt-4 text-sm font-medium text-red-600 hidden"></div>
         <div id="loading-indicator" class="flex justify-center items-center h-16 mt-8 hidden">
             <div class="loading-animation"></div>
-            <span class="ml-3 text-lg font-medium text-indigo-600">Đang tạo bài tập chi tiết... Vui lòng chờ.</span>
+            <!-- Cập nhật thông báo tải chi tiết -->
+            <span class="ml-3 text-lg font-medium text-indigo-600">Đang soạn đề và lời giải... Vui lòng chờ.</span>
         </div>
         
         <!-- KHU VỰC HIỂN THỊ BÀI TẬP - UI TRỰC QUAN HƠN -->
@@ -172,7 +173,8 @@
                 <!-- Loading/Quiz Content will go here -->
                 <div id="quiz-loading" class="flex flex-col justify-center items-center h-full hidden">
                     <div class="loading-animation border-purple-500"></div>
-                    <span class="mt-3 text-lg font-medium text-purple-600">Đang tạo câu hỏi Quiz...</span>
+                    <!-- Cập nhật thông báo tải Quiz -->
+                    <span class="mt-3 text-lg font-medium text-purple-600">Đang tính toán... Chỉ vài giây nữa thôi!</span>
                 </div>
 
                 <div id="quiz-question-area" class="hidden">
@@ -290,7 +292,8 @@
                 typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh, sử dụng ngôn ngữ tiếng Việt chuẩn, thân thiện với học sinh.";
                 contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
             } else { // Phép tính
-                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp, không có ngữ cảnh đố. Ví dụ: 'Tìm hai số X và Y, biết Tổng X+Y là... và Hiệu X-Y là...'.";
+                // ĐÃ SỬA: Đảm bảo đề bài yêu cầu tìm một giá trị cụ thể để phù hợp với format bài giải
+                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp, KHÔNG CÓ CÂU CHUYỆN ĐỐ. Ví dụ: 'Tìm số lớn/số bé, biết tổng X và hiệu Y'.";
             }
 
             return `
@@ -321,7 +324,8 @@
                 typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh.";
                 contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
             } else { // Phép tính
-                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp.";
+                // ĐÃ SỬA: Đảm bảo đề bài rõ ràng, và đáp án là các giá trị số học (numeric)
+                typeInstruction = "Đề bài PHẢI là câu hỏi trực tiếp, KHÔNG CÓ CÂU CHUYỆN ĐỐ. Ví dụ: 'Tìm số lớn/số bé, biết tổng X và hiệu Y'. Các đáp án (choices) PHẢI là các giá trị số học phù hợp với câu hỏi.";
             }
 
             return `
@@ -357,7 +361,7 @@
             questionArea.classList.add('hidden');
             statusMessage.classList.add('hidden');
 
-            // Quản lý trạng thái nút riêng biệt (ĐÃ SỬA LỖI 1)
+            // Quản lý trạng thái nút riêng biệt (Đã fix lỗi)
             if (isQuiz) {
                 quizNextBtn.disabled = true; 
             } else {
