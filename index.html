@@ -3,611 +3,617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fshare.vn - Thuyết Trình Chuyên Nghiệp</title>
+    <title>Tạo Bài Tập Toán: Tổng và Hiệu</title>
+    <!-- Tải Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Cấu hình Font và Màu sắc -->
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { background: #1a1a1a; }
-        
-        .presentation-container {
-            width: 100%;
-            max-width: 1400px;
-            aspect-ratio: 16 / 9;
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Serif:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
         }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100px) scale(0.95);
-            pointer-events: none;
+        .container-card {
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-            z-index: 10;
-            pointer-events: auto;
-        }
-
-        .slide.prev {
-            transform: translateX(-100px) scale(0.95);
-        }
-
-        .slide-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 4rem 5rem;
-            text-align: center;
-        }
-
-        .counter-badge {
-            position: absolute;
-            bottom: 24px;
-            right: 24px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 20;
-            backdrop-filter: blur(10px);
-        }
-
-        .controls {
-            position: absolute;
-            bottom: 24px;
-            left: 24px;
-            display: flex;
-            gap: 12px;
-            z-index: 20;
-        }
-
-        .control-btn {
-            width: 40px;
-            height: 40px;
+        .loading-animation {
+            border-top: 4px solid #3498db;
+            border-right: 4px solid transparent;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
         }
-
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
+        /* Loading animation cho Quiz (màu tím) */
+        .loading-animation.border-purple-500 {
+            border-top: 4px solid #9333ea;
         }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Sử dụng font Serif cho phần đề bài để tạo cảm giác học thuật */
+        #problem-text, #quiz-problem-text {
+            font-family: 'Noto Serif', serif;
+        }
+        /* Nút lựa chọn Quiz/Bài tập chi tiết */
+        .choice-btn:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
-    <div class="presentation-container">
-        <div id="slide-container">
-            <!-- Slide 1: Title -->
-            <div class="slide active">
-                <div class="slide-content bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
-                    <svg class="w-20 h-20 mb-6 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+<body class="p-4 md:p-8 min-h-screen flex items-start justify-center">
+
+    <div class="w-full max-w-4xl container-card bg-white rounded-xl p-6 md:p-10">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-center text-indigo-700 mb-6 border-b-4 border-indigo-200 pb-3 flex items-center justify-center space-x-3">
+            <span class="text-4xl">📚</span>
+            <span>Tạo Bài Tập Toán Tiểu Học</span>
+            <span class="text-4xl">✏️</span>
+        </h1>
+        <p class="text-center text-gray-600 mb-8">Chủ đề: Tìm hai số khi biết Tổng và Hiệu (Sách GK 2018)</p>
+
+        <!-- KHU VỰC CẤU HÌNH BÀI TẬP -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+            <!-- 1. Chọn Mức Độ -->
+            <div class="col-span-3 md:col-span-3">
+                <label class="block text-lg font-semibold text-gray-700 mb-2">1. Chọn Mức Độ Khó:</label>
+                <div id="level-selection" class="flex flex-wrap gap-3">
+                    <button data-level="Biết" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-green-500 hover:text-white">
+                        Biết (Dễ)
+                    </button>
+                    <button data-level="Hiểu" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-yellow-500 hover:text-white">
+                        Hiểu (Trung bình)
+                    </button>
+                    <button data-level="Vận dụng" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white">
+                        Vận dụng (Khó)
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 2. Chọn Loại Bài Tập -->
+            <div class="col-span-3 md:col-span-3">
+                <label class="block text-lg font-semibold text-gray-700 mb-2">2. Chọn Loại Bài Tập:</label>
+                <div id="type-selection" class="flex flex-wrap gap-3">
+                    <button data-type="Thực tế" class="type-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-teal-500 hover:text-white">
+                        Toán Thực Tế (Bài toán đố)
+                    </button>
+                    <button data-type="Phép tính" class="type-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-teal-500 hover:text-white">
+                        Phép Tính Bình Thường
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Nhập Ngữ Cảnh Tùy Chỉnh -->
+            <div class="col-span-3">
+                <label for="context-input" class="block text-lg font-semibold text-gray-700 mb-2">3. Nhập Ngữ Cảnh (Tuỳ chọn - Chỉ áp dụng cho Toán Thực Tế):</label>
+                <input type="text" id="context-input" placeholder="Ví dụ: Ở trang trại, về trò chơi điện tử, về đồ vật học sinh..." 
+                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150">
+                <p class="text-sm text-gray-500 mt-1">Ngữ cảnh giúp bài toán hấp dẫn và gần gũi hơn với học sinh.</p>
+            </div>
+        </div>
+
+        <!-- NÚT TẠO BÀI TẬP VÀ QUIZ (Cập nhật bố cục) -->
+        <div class="flex flex-col lg:flex-row gap-4">
+            <button id="generate-btn" 
+                    class="choice-btn w-full lg:w-1/2 flex items-center justify-center space-x-2 px-6 py-3 bg-indigo-600 text-white text-xl font-bold rounded-xl hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06l-6.22-6.22V20.5a.75.75 0 0 1-1.5 0V4.81l-6.22 6.22a.75.75 0 1 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
+                </svg>
+                <span>Tạo Bài Tập Chi Tiết</span>
+            </button>
+            <!-- Nút Tạo Quiz -->
+            <button id="quiz-btn" 
+                    class="choice-btn w-full lg:w-1/2 flex items-center justify-center space-x-2 px-6 py-3 bg-purple-600 text-white text-xl font-bold rounded-xl hover:bg-purple-700 transition duration-300 transform hover:scale-[1.01] shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 7.5H19.5a.75.75 0 0 1 .581 1.258l-10.75 14.25a.75.75 0 0 1-1.127-.25l-.847-2.094a.75.75 0 0 1 .442-.984l.732-.293H9.75a.75.75 0 0 1 .581 1.259l-2.001 2.668 10.05-13.4a.75.75 0 0 1-.359-.852l1.282-4.269 1.282 4.269a.75.75 0 0 1-.359.852l-1.282 4.269L5.438 18.258a.75.75 0 0 1-1.127-.25L3.461 15.91a.75.75 0 0 1 .442-.984l.732-.293H4.5a.75.75 0 0 1 .581 1.259l2.001 2.668 10.05-13.4Z" clip-rule="evenodd" />
+                </svg>
+                <span>Tạo QUIZ (Trắc nghiệm)</span>
+            </button>
+        </div>
+        
+        <!-- KHU VỰC KẾT QUẢ VÀ THÔNG BÁO -->
+        <div id="status-message" class="text-center mt-4 text-sm font-medium text-red-600 hidden"></div>
+        <div id="loading-indicator" class="flex justify-center items-center h-16 mt-8 hidden">
+            <div class="loading-animation"></div>
+            <span class="ml-3 text-lg font-medium text-indigo-600">Đang tạo bài tập chi tiết... Vui lòng chờ.</span>
+        </div>
+        
+        <!-- KHU VỰC HIỂN THỊ BÀI TẬP - UI TRỰC QUAN HƠN -->
+        <div id="result-area" class="mt-8 pt-6 border-t-2 border-dashed border-gray-300 hidden">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex justify-between items-center">
+                <span>Bài Tập Đã Tạo (Loại: Chi tiết)</span>
+                <span id="level-badge" class="px-3 py-1 text-sm font-semibold rounded-full"></span>
+            </h2>
+
+            <!-- Problem Box Enhancement: Nổi bật hơn với viền dày và font serif -->
+            <div class="bg-white p-5 rounded-xl border-4 border-indigo-400 shadow-lg mb-6">
+                <h3 class="text-xl font-extrabold text-indigo-700 border-b pb-2 mb-3 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75H16.5a.75.75 0 0 0 0-1.5H12.75V6Z" clip-rule="evenodd" />
                     </svg>
-                    <h1 class="text-7xl font-bold mb-4"><p>Nhóm 1 xin giới thiệu :
-                    </p>Fshare.vn</h1>
-                    <p class="text-3xl font-light mb-2">Nền tảng lưu trữ & chia sẻ tệp hàng đầu Việt Nam</p>
-                    <p class="text-xl opacity-90">Giải pháp đáng tin cậy cho cá nhân và doanh nghiệp</p>
-                </div>
+                    <span>Đề Bài (Mức: <span id="current-level" class="text-indigo-500"></span>)</span>
+                </h3>
+                <p id="problem-text" class="text-gray-900 text-xl leading-relaxed whitespace-pre-wrap"></p>
             </div>
 
-            <!-- Slide 2: Team Members -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-                    <h2 class="text-5xl font-bold mb-12">Các Thành Viên Nhóm</h2>
-                    <div class="grid grid-cols-6 gap-3 w-full max-w-6xl">
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">1</div>
-                            <h3 class="font-semibold text-sm">Bùi Hà Nam Anh</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">2</div>
-                            <h3 class="font-semibold text-sm">Phạm Phương Anh</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-amber-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">3</div>
-                            <h3 class="font-semibold text-sm">Phạm Tuấn Anh</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-rose-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">4</div>
-                            <h3 class="font-semibold text-sm">Nguyễn Minh Cương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-violet-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">5</div>
-                            <h3 class="font-semibold text-sm">Trần Duy Cương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">6</div>
-                            <h3 class="font-semibold text-sm">Nguyễn Văn Duy</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-indigo-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">7</div>
-                            <h3 class="font-semibold text-sm">Bùi Nhật Dương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-pink-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">8</div>
-                            <h3 class="font-semibold text-sm">Hà Ngọc Thái Dương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-teal-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">9</div>
-                            <h3 class="font-semibold text-sm">Lưu Đức Thái Dương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">10</div>
-                            <h3 class="font-semibold text-sm">Nguyễn Thị Ánh Dương</h3>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-5 rounded-lg border border-white/20 text-center hover:bg-white/20 transition">
-                            <div class="w-12 h-12 bg-lime-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">11</div>
-                            <h3 class="font-semibold text-sm">Đức</h3>
-                        </div>
-                    </div>
+            <!-- Solution Box Enhancement: Màu xanh lá nổi bật, có tiêu đề bước giải -->
+            <details class="bg-white border-2 border-green-500 rounded-xl overflow-hidden shadow-lg">
+                <summary class="p-4 bg-green-50 cursor-pointer text-green-700 text-xl font-bold transition duration-150 hover:bg-green-100 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.037 2.036a.75.75 0 0 0 1.06-.01l3.77-5.28Z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Xem Lời Giải Chi Tiết</span>
+                </summary>
+                <div class="p-5 border-t border-green-200 bg-green-50/50">
+                    <h4 class="text-lg font-bold text-green-800 mb-2 border-b border-green-300 pb-1">Các Bước Giải:</h4>
+                    <p id="solution-text" class="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap"></p>
                 </div>
-            </div>
-
-            <!-- Slide 3: About Fshare -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Giới Thiệu Về Fshare</h2>
-                    <div class="grid grid-cols-3 gap-8 w-full max-w-5xl">
-                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-blue-500">
-                            <div class="text-4xl mb-4">🌐</div>
-                            <h3 class="font-bold text-lg mb-3 text-slate-800">Lịch Sử & Phát Triển</h3>
-                            <p class="text-gray-700 leading-relaxed">Fshare được thành lập vào năm 2010, trở thành giải pháp lưu trữ đám mây hàng đầu tại Việt Nam với hơn 10 triệu người dùng.</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-purple-500">
-                            <div class="text-4xl mb-4">👥</div>
-                            <h3 class="font-bold text-lg mb-3 text-slate-800">Người Dùng & Thị Trường</h3>
-                            <p class="text-gray-700 leading-relaxed">Được sử dụng bởi cá nhân, doanh nghiệp, sinh viên và các tổ chức khác tại Việt Nam và khu vực Đông Nam Á.</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-rose-500">
-                            <div class="text-4xl mb-4">🏆</div>
-                            <h3 class="font-bold text-lg mb-3 text-slate-800">Cam Kết & Giá Trị</h3>
-                            <p class="text-gray-700 leading-relaxed">Cam kết bảo vệ dữ liệu, cung cấp dịch vụ ổn định 24/7 và liên tục cải thiện tính năng để đáp ứng nhu cầu thị trường.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 4: Key Features -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-                    <h2 class="text-5xl font-bold mb-12">Tính Năng Nổi Bật</h2>
-                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">⚡</div>
-                            <h3 class="font-bold text-lg mb-2">Tốc Độ Cực Nhanh</h3>
-                            <p class="text-sm text-gray-300">Máy chủ tại Việt Nam đảm bảo tốc độ tải lên/tải xuống vượt trội.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">🛡️</div>
-                            <h3 class="font-bold text-lg mb-2">An Toàn & Bảo Mật</h3>
-                            <p class="text-sm text-gray-300">Mã hóa dữ liệu, bảo vệ tài khoản đa lớp, tuân thủ tiêu chuẩn.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">💾</div>
-                            <h3 class="font-bold text-lg mb-2">Dung Lượng Khổng Lồ</h3>
-                            <p class="text-sm text-gray-300">Từ 50GB miễn phí đến hàng TB cho các gói cao cấp.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">🤝</div>
-                            <h3 class="font-bold text-lg mb-2">Chia Sẻ Dễ Dàng</h3>
-                            <p class="text-sm text-gray-300">Tạo link chia sẻ, quản lý quyền truy cập linh hoạt.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">📱</div>
-                            <h3 class="font-bold text-lg mb-2">Đa Nền Tảng</h3>
-                            <p class="text-sm text-gray-300">Web, iOS, Android - truy cập từ bất kỳ thiết bị.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">💳</div>
-                            <h3 class="font-bold text-lg mb-2">Thanh Toán Linh Hoạt</h3>
-                            <p class="text-sm text-gray-300">MoMo, thẻ ngân hàng, SMS với gói nâng cấp linh hoạt.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 5: Pricing -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Các Gói Cước & Giá Dịch Vụ</h2>
-                    <div class="w-full max-w-5xl overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                                    <th class="p-4 text-left font-bold">Tên Gói</th>
-                                    <th class="p-4 text-left font-bold">Dung Lượng</th>
-                                    <th class="p-4 text-left font-bold">Tốc Độ</th>
-                                    <th class="p-4 text-left font-bold">Quảng Cáo</th>
-                                    <th class="p-4 text-right font-bold">Giá</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b bg-white">
-                                    <td class="p-4 font-semibold text-blue-600">Free</td>
-                                    <td class="p-4">50 GB</td>
-                                    <td class="p-4">Giới hạn</td>
-                                    <td class="p-4">Có</td>
-                                    <td class="p-4 text-right font-bold text-green-600">Miễn phí</td>
-                                </tr>
-                                <tr class="border-b bg-slate-50">
-                                    <td class="p-4 font-semibold text-amber-600">VIP</td>
-                                    <td class="p-4">300 GB</td>
-                                    <td class="p-4">Cao (≤ 5 MB/s)</td>
-                                    <td class="p-4">Không</td>
-                                    <td class="p-4 text-right font-bold">90.000đ/tháng</td>
-                                </tr>
-                                <tr class="border-b bg-white">
-                                    <td class="p-4 font-semibold text-purple-600">Storage 1 TB</td>
-                                    <td class="p-4">1 TB</td>
-                                    <td class="p-4">Rất cao (≤ 10 MB/s)</td>
-                                    <td class="p-4">Không</td>
-                                    <td class="p-4 text-right font-bold">450.000đ/3 tháng</td>
-                                </tr>
-                                <tr class="bg-slate-50">
-                                    <td class="p-4 font-semibold text-green-600">Directlink</td>
-                                    <td class="p-4">-</td>
-                                    <td class="p-4">Cao</td>
-                                    <td class="p-4">Không</td>
-                                    <td class="p-4 text-right font-bold">100.000đ/200GB</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 6: Pros & Cons -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800">
-                    <h2 class="text-5xl font-bold text-white mb-12">Ưu & Nhược Điểm</h2>
-                    <div class="grid grid-cols-2 gap-8 w-full max-w-5xl">
-                        <div class="bg-green-500/20 backdrop-blur p-8 rounded-lg border border-green-400/50">
-                            <h3 class="font-bold text-2xl text-green-400 mb-6">✅ Ưu Điểm</h3>
-                            <ul class="space-y-3 text-white text-left text-sm">
-                                <li>• Tốc độ cực nhanh với máy chủ Việt Nam</li>
-                                <li>• Dung lượng miễn phí lớn (50 GB)</li>
-                                <li>• Thanh toán đa dạng và linh hoạt</li>
-                                <li>• Chia sẻ dễ dàng với quản lý quyền hạn</li>
-                                <li>• Giao diện 100% tiếng Việt</li>
-                                <li>• Hỗ trợ 24/7 tuyệt vời</li>
-                            </ul>
-                        </div>
-                        <div class="bg-red-500/20 backdrop-blur p-8 rounded-lg border border-red-400/50">
-                            <h3 class="font-bold text-2xl text-red-400 mb-6">⚠️ Nhược Điểm</h3>
-                            <ul class="space-y-3 text-white text-left text-sm">
-                                <li>• File vùng xám bị xóa sau 30 ngày</li>
-                                <li>• Gói Free có tốc độ tải giới hạn</li>
-                                <li>• Lệ phí cho nội dung vi phạm</li>
-                                <li>• Không có chính sách khôi phục file xóa</li>
-                                <li>• Giới hạn kích thước upload gói Free</li>
-                                <li>• Tùy chỉnh link chia sẻ hạn chế</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 7: How to Use -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Hướng Dẫn Sử Dụng</h2>
-                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
-                        <div class="bg-white p-7 rounded-lg shadow-lg">
-                            <div class="text-4xl mb-4">📤</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Tải Lên (Upload)</h3>
-                            <ol class="space-y-2 text-left text-gray-700 text-sm">
-                                <li>1. Đăng nhập tài khoản</li>
-                                <li>2. Nhấn nút "Tải lên"</li>
-                                <li>3. Chọn file từ máy</li>
-                                <li>4. Chờ hoàn tất</li>
-                            </ol>
-                        </div>
-                        <div class="bg-white p-7 rounded-lg shadow-lg">
-                            <div class="text-4xl mb-4">📥</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Tải Xuống (Download)</h3>
-                            <ol class="space-y-2 text-left text-gray-700 text-sm">
-                                <li>1. Tìm file cần tải</li>
-                                <li>2. Nhấn "Tải xuống"</li>
-                                <li>3. Chọn vị trí lưu</li>
-                                <li>4. Chờ hoàn tất</li>
-                            </ol>
-                        </div>
-                        <div class="bg-white p-7 rounded-lg shadow-lg">
-                            <div class="text-4xl mb-4">🔗</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Chia Sẻ (Share)</h3>
-                            <ol class="space-y-2 text-left text-gray-700 text-sm">
-                                <li>1. Chọn file cần chia</li>
-                                <li>2. Nhấn "Lấy Link"</li>
-                                <li>3. Sao chép link</li>
-                                <li>4. Gửi cho người khác</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: Comparison -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-                    <h2 class="text-5xl font-bold mb-12">So Sánh Với Đối Thủ</h2>
-                    <div class="w-full max-w-5xl overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="bg-gradient-to-r from-blue-600 to-purple-600">
-                                    <th class="p-3 text-left font-bold">Tiêu Chí</th>
-                                    <th class="p-3 text-center font-bold">Fshare</th>
-                                    <th class="p-3 text-center font-bold">Google Drive</th>
-                                    <th class="p-3 text-center font-bold">Dropbox</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-white/20">
-                                    <td class="p-3 font-semibold">Dung lượng Free</td>
-                                    <td class="p-3 text-center text-green-400 font-bold">50 GB</td>
-                                    <td class="p-3 text-center">15 GB</td>
-                                    <td class="p-3 text-center">2 GB</td>
-                                </tr>
-                                <tr class="border-b border-white/20">
-                                    <td class="p-3 font-semibold">Tốc độ tại VN</td>
-                                    <td class="p-3 text-center text-green-400 font-bold">⚡⚡⚡ Cực nhanh</td>
-                                    <td class="p-3 text-center">⚡ Chậm</td>
-                                    <td class="p-3 text-center">⚡ Chậm</td>
-                                </tr>
-                                <tr class="border-b border-white/20">
-                                    <td class="p-3 font-semibold">Thanh toán Việt</td>
-                                    <td class="p-3 text-center text-green-400 font-bold">✅ Có</td>
-                                    <td class="p-3 text-center">❌ Không</td>
-                                    <td class="p-3 text-center">❌ Không</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3 font-semibold">Giao diện Việt</td>
-                                    <td class="p-3 text-center text-green-400 font-bold">✅ 100%</td>
-                                    <td class="p-3 text-center">✅ Có</td>
-                                    <td class="p-3 text-center">✅ Có</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 9: Security -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Bảo Mật & Quyền Riêng Tư</h2>
-                    <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
-                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-red-500">
-                            <div class="text-4xl mb-3">🔒</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Mã Hóa Dữ Liệu</h3>
-                            <ul class="space-y-2 text-gray-700 text-sm">
-                                <li>✓ SSL/TLS cho tất cả</li>
-                                <li>✓ Mã hóa end-to-end</li>
-                                <li>✓ Bảo vệ mật khẩu</li>
-                                <li>✓ Xác thực 2FA</li>
-                            </ul>
-                        </div>
-                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-blue-500">
-                            <div class="text-4xl mb-3">🛡️</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Chính Sách Bảo Vệ</h3>
-                            <ul class="space-y-2 text-gray-700 text-sm">
-                                <li>✓ Quét virus tự động</li>
-                                <li>✓ Phát hiện độc hại</li>
-                                <li>✓ Tuân thủ GDPR</li>
-                                <li>✓ Không bán dữ liệu</li>
-                            </ul>
-                        </div>
-                        <div class="bg-white p-7 rounded-lg shadow-lg border-t-4 border-green-500">
-                            <div class="text-4xl mb-3">📋</div>
-                            <h3 class="font-bold text-lg mb-4 text-slate-800">Quyền Riêng Tư</h3>
-                            <ul class="space-y-2 text-gray-700 text-sm">
-                                <li>✓ Chính sách rõ ràng</li>
-                                <li>✓ Kiểm soát dữ liệu</li>
-                                <li>✓ Yêu cầu xóa ngay</li>
-                                <li>✓ Minh bạch cao</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 10: Use Cases -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-                    <h2 class="text-5xl font-bold mb-12">Trường Hợp Sử Dụng Thực Tế</h2>
-                    <div class="grid grid-cols-2 gap-8 w-full max-w-5xl">
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">👨‍💼</div>
-                            <h3 class="font-bold text-lg mb-2">Cho Doanh Nghiệp</h3>
-                            <p class="text-sm text-gray-300">Lưu trữ tài liệu công ty, quản lý nhân sự với dung lượng lớn.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">🎓</div>
-                            <h3 class="font-bold text-lg mb-2">Cho Sinh Viên</h3>
-                            <p class="text-sm text-gray-300">Lưu trữ đồ án, bài tập, tài liệu học tập.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">📸</div>
-                            <h3 class="font-bold text-lg mb-2">Cho Nhà Sáng Tạo</h3>
-                            <p class="text-sm text-gray-300">Lưu trữ ảnh, video 4K với dung lượng lớn.</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
-                            <div class="text-3xl mb-3">🎬</div>
-                            <h3 class="font-bold text-lg mb-2">Cho Nhà Phát Triển</h3>
-                            <p class="text-sm text-gray-300">Chia sẻ source code, bản dựng phần mềm.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 11: Future Roadmap -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <h2 class="text-5xl font-bold text-slate-800 mb-12">Kế Hoạch Phát Triển Tương Lai</h2>
-                    <div class="space-y-4 w-full max-w-4xl">
-                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
-                            <h3 class="font-bold text-lg text-blue-600 mb-2">🚀 Năm 2024-2025</h3>
-                            <p class="text-gray-700">Cải thiện tốc độ với CDN toàn cầu, hỗ trợ sync tự động, AI tổ chức file, nâng cấp bảo mật blockchain.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-purple-500">
-                            <h3 class="font-bold text-lg text-purple-600 mb-2">🎯 Mục Tiêu Chiến Lược</h3>
-                            <p class="text-gray-700">Trở thành dịch vụ lưu trữ đám mây hàng đầu Đông Nam Á, mở rộng sang các quốc gia khác.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-green-500">
-                            <h3 class="font-bold text-lg text-green-600 mb-2">✨ Các Tính Năng Sắp Tới</h3>
-                            <p class="text-gray-700">Video editing trực tiếp, collaborative workspace, AI transcript, AR viewer cho hình 3D.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 12: Conclusion -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
-                    <h2 class="text-6xl font-bold mb-8">Kết Luận</h2>
-                    <div class="max-w-3xl space-y-8">
-                        <div class="bg-white/15 backdrop-blur-md p-8 rounded-lg border border-white/30">
-                            <h3 class="text-2xl font-bold mb-3">Fshare - Giải Pháp Hoàn Hảo</h3>
-                            <p class="text-lg leading-relaxed">Với tốc độ cực nhanh, dung lượng lớn, giao diện Việt, thanh toán linh hoạt và hỗ trợ tuyệt vời, Fshare là lựa chọn hàng đầu cho lưu trữ và chia sẻ dữ liệu tại Việt Nam.</p>
-                        </div>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
-                                <div class="text-3xl font-bold mb-1">50 GB</div>
-                                <p class="text-sm">Miễn phí ngay</p>
-                            </div>
-                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
-                                <div class="text-3xl font-bold mb-1">⚡⚡⚡</div>
-                                <p class="text-sm">Tốc độ tối ưu</p>
-                            </div>
-                            <div class="bg-white/15 backdrop-blur-md p-4 rounded-lg border border-white/30 text-center">
-                                <div class="text-3xl font-bold mb-1">✅</div>
-                                <p class="text-sm">An toàn tin cậy</p>
-                            </div>
-                        </div>
-                        <p class="text-xl text-center font-semibold">Hãy bắt đầu tại <span class="text-yellow-300">fshare.vn</span> ngay hôm nay!</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 13: Q&A -->
-            <div class="slide">
-                <div class="slide-content bg-gradient-to-br from-slate-50 to-slate-100">
-                    <div class="text-center">
-                        <div class="text-8xl mb-6">💻</div>
-                        <h1 class="text-5xl font-bold text-slate-800 mb-4">Và sau đây là</h1>
-                        <p class="text-xl text-gray-600">Phần thực hành của nhóm</p>
-                    </div>
-                </div>
-            </div>
+            </details>
         </div>
+        
+    </div>
 
-        <!-- Counter -->
-        <div class="counter-badge">
-            <span id="slide-counter">1</span> / <span id="total-slides">13</span>
-        </div>
+    <!-- QUIZ MODAL (POP UP FULL MÀN HÌNH - ĐÃ MỞ RỘNG) -->
+    <div id="quiz-modal" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
+        <!-- Đã đổi max-w-2xl thành max-w-4xl và h-[90vh] thành h-[95vh] -->
+        <div class="bg-white rounded-xl w-full max-w-4xl p-6 md:p-10 relative h-[95vh] flex flex-col">
+            <!-- Close Button -->
+            <button id="close-quiz-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
-        <!-- Controls -->
-        <div class="controls">
-            <button id="prev-btn" class="control-btn" title="Slide trước (Chuột phải)">❮</button>
-            <button id="next-btn" class="control-btn" title="Slide tiếp (Click)">❯</button>
+            <h2 class="text-3xl font-extrabold text-purple-700 text-center mb-6 border-b-2 border-purple-200 pb-3">Trắc Nghiệm Toán Học</h2>
+            
+            <!-- Quiz Content Area -->
+            <div id="quiz-content" class="flex-grow overflow-y-auto">
+                <!-- Loading/Quiz Content will go here -->
+                <div id="quiz-loading" class="flex flex-col justify-center items-center h-full hidden">
+                    <div class="loading-animation border-purple-500"></div>
+                    <span class="mt-3 text-lg font-medium text-purple-600">Đang tạo câu hỏi Quiz...</span>
+                </div>
+
+                <div id="quiz-question-area" class="hidden">
+                    <!-- Question -->
+                    <div class="mb-6 bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500 shadow-md">
+                        <p class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                             <span class="text-2xl">💡</span>
+                             <span>Đề bài (Mức: <span id="quiz-level" class="font-bold text-purple-600"></span>):</span>
+                        </p>
+                        <p id="quiz-problem-text" class="text-2xl font-serif text-gray-900 leading-snug"></p>
+                    </div>
+
+                    <!-- Choices -->
+                    <div id="quiz-choices" class="space-y-4">
+                        <!-- Buttons will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="quiz-feedback" class="mt-6 p-4 rounded-lg text-center font-bold text-xl hidden transition-all duration-300"></div>
+            </div>
+
+            <!-- Footer Button -->
+            <div class="mt-6 border-t pt-4">
+                <button id="quiz-next-btn" class="w-full px-6 py-3 bg-purple-600 text-white text-lg font-bold rounded-lg hover:bg-purple-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
+                    Tạo Câu Hỏi Mới
+                </button>
+            </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const slides = document.querySelectorAll('.slide');
-            const slideCounter = document.getElementById('slide-counter');
-            const totalSlides = document.getElementById('total-slides');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
+    <script type="module">
+        // Các hằng số và biến toàn cục
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+        const apiKey = "AIzaSyCiHJhV9T26xfojNPqrQqvsRRfv1f5xrgU"; // API Key sẽ được tự động cung cấp trong môi trường Canvas
+        const contextInput = document.getElementById('context-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const statusMessage = document.getElementById('status-message');
+        const resultArea = document.getElementById('result-area');
+        const problemText = document.getElementById('problem-text');
+        const solutionText = document.getElementById('solution-text');
+        const currentLevelSpan = document.getElementById('current-level');
+        const levelBadge = document.getElementById('level-badge');
+
+        // Biến và DOM cho Quiz
+        const quizBtn = document.getElementById('quiz-btn');
+        const quizModal = document.getElementById('quiz-modal');
+        const closeQuizBtn = document.getElementById('close-quiz-btn');
+        const quizLoading = document.getElementById('quiz-loading');
+        const quizQuestionArea = document.getElementById('quiz-question-area');
+        const quizProblemText = document.getElementById('quiz-problem-text');
+        const quizChoicesDiv = document.getElementById('quiz-choices');
+        const quizFeedback = document.getElementById('quiz-feedback');
+        const quizNextBtn = document.getElementById('quiz-next-btn');
+        const quizLevelSpan = document.getElementById('quiz-level');
+
+        let selectedLevel = 'Biết'; // Mức độ mặc định
+        let selectedType = 'Thực tế'; // Loại bài tập mặc định
+        let isAnswered = false; // Trạng thái đã trả lời của Quiz hiện tại
+
+        // 1. Cấu hình các mức độ khó
+        const levelConfigs = {
+            "Biết": {
+                color: "bg-green-100 text-green-700",
+                description: "Tổng và Hiệu được cho rõ ràng. Tập trung vào công thức."
+            },
+            "Hiểu": {
+                color: "bg-yellow-100 text-yellow-700",
+                description: "Tổng được cho, Hiệu được suy luận từ câu so sánh trực tiếp."
+            },
+            "Vận dụng": {
+                color: "bg-red-100 text-red-700",
+                description: "Tổng hoặc Hiệu (hoặc cả hai) được lồng ghép trong tình huống thực tế, đòi hỏi phân tích."
+            }
+        };
+
+        // 2. Định nghĩa cấu trúc JSON đầu ra mong muốn
+        const problemResponseSchema = {
+            type: "OBJECT",
+            properties: {
+                "problem": { "type": "STRING" },
+                "solution_steps": { "type": "STRING" },
+                "level": { "type": "STRING" }
+            },
+            propertyOrdering: ["problem", "solution_steps", "level"]
+        };
+
+        // 2b. Định nghĩa cấu trúc JSON đầu ra mong muốn cho QUIZ
+        const quizResponseSchema = {
+            type: "OBJECT",
+            properties: {
+                "problem": { "type": "STRING" },
+                "choices": { 
+                    "type": "ARRAY", 
+                    "items": { "type": "STRING" },
+                    "description": "4 đáp án trắc nghiệm."
+                },
+                "correct_index": { "type": "INTEGER", "description": "Chỉ mục (0-3) của đáp án đúng." },
+                "level": { "type": "STRING" }
+            },
+            propertyOrdering: ["problem", "choices", "correct_index", "level"]
+        };
+        
+        /**
+         * 3. Hàm tạo System Instruction cho bài tập Chi tiết
+         */
+        function createProblemSystemInstruction(level, context, type) {
+            const levelPrompt = levelConfigs[level].description;
             
-            let currentSlide = 0;
-            const total = slides.length;
-            totalSlides.textContent = total;
+            let typeInstruction;
+            let contextInstruction = "";
 
-            function showSlide(newIndex) {
-                const oldSlide = slides[currentSlide];
-                const newSlide = slides[newIndex];
+            if (type === "Thực tế") {
+                typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh, sử dụng ngôn ngữ tiếng Việt chuẩn, thân thiện với học sinh.";
+                contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
+            } else { // Phép tính
+                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp, không có ngữ cảnh đố. Ví dụ: 'Tìm hai số X và Y, biết Tổng X+Y là... và Hiệu X-Y là...'.";
+            }
 
-                // Determine direction for animation
-                const isNext = newIndex > currentSlide || (newIndex === 0 && currentSlide === total - 1);
+            return `
+                Bạn là một chuyên gia tạo đề bài toán tiểu học (lớp 4) tại Việt Nam theo chương trình SGK 2018.
+                Nhiệm vụ của bạn là tạo một bài toán DUY NHẤT VÀ CHI TIẾT về chủ đề "Tìm hai số khi biết Tổng và Hiệu".
+                
+                Quy tắc:
+                1. Mức độ khó: ${level} (${levelPrompt}).
+                2. Loại bài tập: ${type}. ${typeInstruction}
+                3. ${contextInstruction}
+                4. Cung cấp Lời giải chi tiết theo từng bước giải (Tóm tắt, Lời giải, Phép tính, Đáp số) như một giáo viên.
+                5. PHẢI tạo ra các số liệu hợp lý cho học sinh tiểu học (ví dụ: tổng không quá 1000, hiệu không quá 500).
+                
+                PHẢI trả về kết quả dưới định dạng JSON theo schema đã cung cấp.
+            `.trim();
+        }
 
-                if (isNext) {
-                    oldSlide.classList.remove('active');
-                    oldSlide.classList.add('prev');
-                    newSlide.classList.remove('prev');
-                    newSlide.classList.add('active');
-                } else {
-                    oldSlide.classList.remove('active');
-                    newSlide.classList.add('prev');
-                    newSlide.classList.add('active');
+        /**
+         * 3b. Hàm tạo System Instruction cho Quiz Trắc nghiệm
+         */
+        function createQuizSystemInstruction(level, context, type) {
+            const levelPrompt = levelConfigs[level].description;
+            
+            let typeInstruction;
+            let contextInstruction = "";
+
+            if (type === "Thực tế") {
+                typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh.";
+                contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
+            } else { // Phép tính
+                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp.";
+            }
+
+            return `
+                Bạn là một chuyên gia tạo đề bài toán tiểu học (lớp 4) tại Việt Nam theo chương trình SGK 2018.
+                Nhiệm vụ của bạn là tạo một BÀI TRẮC NGHIỆM DUY NHẤT (quiz) về chủ đề "Tìm hai số khi biết Tổng và Hiệu".
+                
+                Quy tắc:
+                1. Mức độ khó: ${level} (${levelPrompt}).
+                2. Loại bài tập: ${type}. ${typeInstruction}
+                3. ${contextInstruction}
+                4. PHẢI tạo ra 4 đáp án TRẮC NGHIỆM (Choices), trong đó chỉ có MỘT đáp án đúng (correct_index 0-3).
+                5. PHẢI tạo ra các số liệu hợp lý cho học sinh tiểu học (ví dụ: tổng không quá 1000, hiệu không quá 500).
+                
+                PHẢI trả về kết quả dưới định dạng JSON theo schema đã cung cấp.
+            `.trim();
+        }
+        
+        /**
+         * 4. Hàm xử lý logic gọi API chung (Chi tiết và Quiz)
+         */
+        async function fetchContentWithBackoff(level, context, type, isQuiz) {
+            let attempt = 0;
+            const maxAttempts = 3;
+
+            // Thiết lập trạng thái loading
+            const loader = isQuiz ? quizLoading : loadingIndicator;
+            const questionArea = isQuiz ? quizQuestionArea : resultArea;
+            const schema = isQuiz ? quizResponseSchema : problemResponseSchema;
+            const systemPromptFunc = isQuiz ? createQuizSystemInstruction : createProblemSystemInstruction;
+            const userQueryPrefix = isQuiz ? "câu hỏi trắc nghiệm" : "bài toán chi tiết";
+
+            loader.classList.remove('hidden');
+            questionArea.classList.add('hidden');
+            statusMessage.classList.add('hidden');
+
+            // Quản lý trạng thái nút riêng biệt (ĐÃ SỬA LỖI 1)
+            if (isQuiz) {
+                quizNextBtn.disabled = true; 
+            } else {
+                generateBtn.disabled = true;
+            }
+
+            while (attempt < maxAttempts) {
+                try {
+                    const systemPrompt = systemPromptFunc(level, context, type);
+                    const userQuery = `Tạo một ${userQueryPrefix} Toán Tiểu học Việt Nam về chủ đề Tìm hai số khi biết Tổng và Hiệu ở mức độ "${level}", loại "${type}".`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: schema
+                        }
+                    };
+
+                    const response = await fetch(`${API_URL}?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        const jsonString = candidate.content.parts[0].text;
+                        const parsedData = JSON.parse(jsonString);
+                        
+                        if (isQuiz) {
+                            displayQuiz(parsedData);
+                        } else {
+                            displayProblem(parsedData);
+                        }
+                        return; // Thành công, thoát vòng lặp
+                    } else {
+                        throw new Error("API response was valid but content structure was empty or unexpected.");
+                    }
+
+                } catch (error) {
+                    console.error(`Attempt ${attempt + 1} failed:`, error);
+                    attempt++;
+
+                    if (attempt < maxAttempts) {
+                        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    } else {
+                        // Thất bại sau số lần thử tối đa
+                        statusMessage.textContent = "Không thể tạo bài tập. Vui lòng thử lại sau.";
+                        statusMessage.classList.remove('hidden');
+                    }
                 }
-
-                currentSlide = newIndex;
-                slideCounter.textContent = currentSlide + 1;
-            }
-
-            function nextSlide() {
-                const nextIndex = (currentSlide + 1) % total;
-                showSlide(nextIndex);
-            }
-
-            function prevSlide() {
-                const prevIndex = (currentSlide - 1 + total) % total;
-                showSlide(prevIndex);
             }
             
-            // Event Listeners
-            document.body.addEventListener('click', (e) => {
-                if (e.target.closest('.control-btn')) return;
-                nextSlide();
+            // Ẩn loading và kích hoạt lại nút sau khi hoàn thành (hoặc thất bại)
+            loader.classList.add('hidden');
+            generateBtn.disabled = false; // Luôn đảm bảo nút chính được kích hoạt lại
+            if (isQuiz) quizNextBtn.disabled = false;
+        }
+
+        /**
+         * 5a. Hàm cập nhật giao diện kết quả bài tập Chi tiết
+         */
+        function displayProblem(data) {
+            const config = levelConfigs[data.level] || levelConfigs['Biết'];
+            currentLevelSpan.textContent = data.level;
+            levelBadge.textContent = data.level;
+            levelBadge.className = `px-3 py-1 text-sm font-semibold rounded-full ${config.color}`;
+            
+            problemText.textContent = data.problem;
+            solutionText.textContent = data.solution_steps;
+
+            resultArea.classList.remove('hidden');
+            loadingIndicator.classList.add('hidden');
+            generateBtn.disabled = false;
+        }
+
+        /**
+         * 5b. Hàm cập nhật giao diện Quiz
+         */
+        function displayQuiz(data) {
+            isAnswered = false;
+            quizLoading.classList.add('hidden');
+            quizQuestionArea.classList.remove('hidden');
+            quizFeedback.classList.add('hidden');
+            quizNextBtn.disabled = false;
+
+            quizLevelSpan.textContent = data.level;
+            quizProblemText.textContent = data.problem;
+            quizChoicesDiv.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+
+            data.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                // Thêm styling thân thiện hơn cho Quiz
+                button.className = 'quiz-choice-btn w-full text-left p-4 rounded-xl border-2 border-purple-300 bg-purple-50 text-gray-800 font-bold transition duration-200 hover:bg-purple-300 hover:scale-[1.01] shadow-md';
+                button.innerHTML = `<span class="font-extrabold mr-2">${letters[index]}.</span> ${choice}`;
+                button.setAttribute('data-index', index);
+                button.onclick = () => handleAnswer(button, index, data.correct_index);
+                quizChoicesDiv.appendChild(button);
+            });
+            
+            quizNextBtn.onclick = startQuiz;
+        }
+
+        /**
+         * 5c. Xử lý logic chọn đáp án
+         */
+        function handleAnswer(clickedButton, selectedIndex, correctIndex) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const allButtons = document.querySelectorAll('#quiz-choices .quiz-choice-btn');
+
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-purple-300', 'hover:scale-[1.01]'); // Remove hover effects
+                
+                const index = parseInt(btn.getAttribute('data-index'));
+                
+                if (index === correctIndex) {
+                    // Đáp án đúng là màu xanh lá đậm
+                    btn.classList.add('bg-green-600', 'text-white', 'font-extrabold', 'shadow-xl', 'border-green-800');
+                    btn.classList.remove('bg-purple-50', 'bg-purple-200', 'border-purple-300', 'text-gray-800');
+                } else if (index === selectedIndex) {
+                    // Đáp án sai là màu đỏ đậm
+                    btn.classList.add('bg-red-600', 'text-white', 'font-extrabold', 'shadow-xl', 'border-red-800');
+                    btn.classList.remove('bg-purple-50', 'bg-purple-200', 'border-purple-300', 'text-gray-800');
+                }
             });
 
-            document.body.addEventListener('contextmenu', e => {
-                e.preventDefault();
-                prevSlide();
+            // Hiển thị phản hồi với icon thân thiện
+            quizFeedback.classList.remove('hidden');
+            if (selectedIndex === correctIndex) {
+                quizFeedback.className = 'mt-6 p-4 rounded-lg text-center font-extrabold text-2xl bg-green-100 text-green-700 transition-all duration-300 border-2 border-green-400 flex items-center justify-center space-x-2';
+                quizFeedback.innerHTML = '<span>✅</span><span>Chính xác! Chúc mừng bạn đã nắm vững kiến thức.</span>';
+            } else {
+                quizFeedback.className = 'mt-6 p-4 rounded-lg text-center font-extrabold text-2xl bg-red-100 text-red-700 transition-all duration-300 border-2 border-red-400 flex items-center justify-center space-x-2';
+                const correctLetter = String.fromCharCode(65 + correctIndex);
+                quizFeedback.innerHTML = `<span>❌</span><span>Sai rồi. Đáp án đúng là ${correctLetter}. Bạn hãy ôn tập lại nhé!</span>`;
+            }
+        }
+
+        /**
+         * 6. Khởi tạo và Xử lý sự kiện
+         */
+
+        // Hàm khởi động Quiz
+        function startQuiz() {
+            quizModal.classList.remove('hidden');
+            const context = contextInput.value.trim();
+            fetchContentWithBackoff(selectedLevel, context, selectedType, true);
+        }
+
+        // Xử lý chọn mức độ (Level)
+        document.querySelectorAll('.level-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.level-btn').forEach(btn => {
+                    btn.classList.remove('bg-indigo-600', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                selectedLevel = e.target.dataset.level;
+                e.target.classList.add('bg-indigo-600', 'text-white');
+                e.target.classList.remove('bg-gray-200', 'text-gray-700');
             });
+        });
 
-            prevBtn.addEventListener('click', prevSlide);
-            nextBtn.addEventListener('click', nextSlide);
+        // Xử lý chọn loại bài tập (Type)
+        document.querySelectorAll('.type-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.type-btn').forEach(btn => {
+                    btn.classList.remove('bg-teal-600', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                selectedType = e.target.dataset.type;
+                e.target.classList.add('bg-teal-600', 'text-white');
+                e.target.classList.remove('bg-gray-200', 'text-gray-700');
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
-                    nextSlide();
-                } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
-                    prevSlide();
+                // Cập nhật trạng thái Ngữ cảnh
+                const isWordProblem = selectedType === "Thực tế";
+                document.getElementById('context-input').placeholder = isWordProblem 
+                    ? "Ví dụ: Ở trang trại, về trò chơi điện tử, về đồ vật học sinh..." 
+                    : "Ngữ cảnh không áp dụng cho Phép tính Bình thường.";
+                document.querySelector('label[for="context-input"]').textContent = isWordProblem
+                    ? "3. Nhập Ngữ Cảnh (Tuỳ chọn - Chỉ áp dụng cho Toán Thực Tế):"
+                    : "3. Nhập Ngữ Cảnh (Tuỳ chọn - Không áp dụng):";
+                
+                contextInput.disabled = !isWordProblem;
+                if (!isWordProblem) {
+                    contextInput.value = '';
                 }
             });
         });
+
+
+        // Chọn mức "Biết" và loại "Thực tế" mặc định khi tải trang
+        document.querySelector('[data-level="Biết"]').click();
+        document.querySelector('[data-type="Thực tế"]').click();
+
+
+        // Xử lý nút Tạo Bài Tập Chi tiết
+        generateBtn.addEventListener('click', () => {
+            const context = contextInput.value.trim();
+            if (!selectedLevel || !selectedType) {
+                statusMessage.textContent = "Vui lòng chọn Mức độ khó và Loại bài tập trước khi tạo.";
+                statusMessage.classList.remove('hidden');
+                return;
+            }
+            fetchContentWithBackoff(selectedLevel, context, selectedType, false);
+        });
+
+        // Xử lý nút Tạo Quiz
+        quizBtn.addEventListener('click', startQuiz);
+
+        // Xử lý nút Đóng Quiz Modal (ĐÃ SỬA LỖI 1)
+        closeQuizBtn.addEventListener('click', () => {
+            quizModal.classList.add('hidden');
+            // Đảm bảo nút tạo bài tập chi tiết được kích hoạt lại khi thoát quiz
+            generateBtn.disabled = false; 
+        });
+
+        // 7. Thao tác Firebase (Cần thiết để ứng dụng chạy trong Canvas)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        if (Object.keys(firebaseConfig).length > 0) {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+
+            async function authenticate() {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Đã đăng nhập bằng token tùy chỉnh.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Đã đăng nhập ẩn danh.");
+                    }
+                } catch (error) {
+                    console.error("Lỗi xác thực Firebase:", error);
+                }
+            }
+            authenticate();
+        }
     </script>
 </body>
 </html>
