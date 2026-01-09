@@ -114,10 +114,13 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 # Step 2: Install Scoop (if not installed)
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
-# Step 3: Add PLD bucket
+# Step 3: Install git (required for adding buckets)
+scoop install git
+
+# Step 4: Add PLD bucket
 scoop bucket add pld-bucket https://github.com/laiduc1312209/scoop-bucket
 
-# Step 4: Install PLD CLI
+# Step 5: Install PLD CLI
 scoop install pld-cli</code>
                         <button class="copy-btn" onclick="copyCode(this)">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
