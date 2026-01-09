@@ -97,6 +97,44 @@
             <h2 class="section-title">Quick Installation</h2>
             <p class="section-description">Get started in seconds</p>
 
+            <!-- Requirements Section -->
+            <div class="requirements-section"
+                style="margin-bottom: 40px; padding: 24px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.2);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 24px;">📋</div>
+                    <h3 style="margin: 0; font-size: 20px; font-weight: 600; color: #f1f5f9;">Requirements</h3>
+                </div>
+                <div style="display: grid; gap: 12px;">
+                    <div
+                        style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+                        <div style="font-size: 20px;">📦</div>
+                        <div>
+                            <div style="font-weight: 500; color: #f1f5f9; margin-bottom: 4px;">Node.js (v14 or higher)
+                            </div>
+                            <div style="font-size: 14px; color: #94a3b8;">Required for manual installation.
+                                Auto-installed via Scoop method.</div>
+                        </div>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+                        <div style="font-size: 20px;">🔧</div>
+                        <div>
+                            <div style="font-weight: 500; color: #f1f5f9; margin-bottom: 4px;">Git</div>
+                            <div style="font-size: 14px; color: #94a3b8;">Required for cloning repository.
+                                Auto-installed via Scoop method.</div>
+                        </div>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+                        <div style="font-size: 20px;">💻</div>
+                        <div>
+                            <div style="font-weight: 500; color: #f1f5f9; margin-bottom: 4px;">Windows PowerShell</div>
+                            <div style="font-size: 14px; color: #94a3b8;">Pre-installed on Windows 7 and later.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="install-methods">
                 <div class="install-card active">
                     <div class="install-header">
@@ -140,8 +178,37 @@ scoop install pld-cli</code>
                             <p>Clone from GitHub</p>
                         </div>
                     </div>
-                    <div class="code-block">
-                        <code>git clone https://github.com/laiduc1312209/pld-cli.git && cd pld-cli && npm install</code>
+                    <p style="margin: 12px 16px 8px; font-size: 14px; color: #94a3b8;">Copy and run in PowerShell
+                        (auto-installs Git & Node.js if needed):</p>
+                    <div class="code-block" style="margin: 0 16px 16px;">
+                        <code style="white-space: pre-wrap; display: block;"># Check if Scoop is installed
+if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Write-Host "Installing Scoop..." -ForegroundColor Cyan
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+}
+
+# Check if Git is installed, install if not
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Host "Git not found. Installing via Scoop..." -ForegroundColor Yellow
+    scoop install git
+} else {
+    Write-Host "Git is already installed." -ForegroundColor Green
+}
+
+# Check if Node.js is installed, install if not
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    Write-Host "Node.js not found. Installing via Scoop..." -ForegroundColor Yellow
+    scoop install nodejs
+} else {
+    Write-Host "Node.js is already installed." -ForegroundColor Green
+}
+
+# Clone and install PLD CLI
+git clone https://github.com/laiduc1312209/pld-cli.git
+cd pld-cli
+npm install
+npm link</code>
                         <button class="copy-btn" onclick="copyCode(this)">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
