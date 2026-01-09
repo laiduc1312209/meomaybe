@@ -1,623 +1,389 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo Bài Tập Toán: Tổng và Hiệu</title>
-    <!-- Tải Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cấu hình Font và Màu sắc -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Serif:wght@400;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f7;
-        }
-        .container-card {
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .loading-animation {
-            border-top: 4px solid #3498db;
-            border-right: 4px solid transparent;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        /* Loading animation cho Quiz (màu tím) */
-        .loading-animation.border-purple-500 {
-            border-top: 4px solid #9333ea;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Sử dụng font Serif cho phần đề bài để tạo cảm giác học thuật */
-        #problem-text, #quiz-problem-text {
-            font-family: 'Noto Serif', serif;
-        }
-        /* Nút lựa chọn Quiz/Bài tập chi tiết */
-        .choice-btn:hover {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <title>PLD CLI - Fast & Elegant File Sharing</title>
+    <meta name="description"
+        content="A beautiful CLI tool for instant file uploads and sharing via Pixeldrain and Gofile">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="p-4 md:p-8 min-h-screen flex items-start justify-center">
 
-    <div class="w-full max-w-4xl container-card bg-white rounded-xl p-6 md:p-10">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-center text-indigo-700 mb-6 border-b-4 border-indigo-200 pb-3 flex items-center justify-center space-x-3">
-            <span class="text-4xl">📚</span>
-            <span>Tạo Bài Tập Toán Tiểu Học</span>
-            <span class="text-4xl">✏️</span>
-        </h1>
-        <p class="text-center text-gray-600 mb-8">Chủ đề: Tìm hai số khi biết Tổng và Hiệu (Sách GK 2018)</p>
-
-        <!-- KHU VỰC CẤU HÌNH BÀI TẬP -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-
-            <!-- 1. Chọn Mức Độ -->
-            <div class="col-span-3 md:col-span-3">
-                <label class="block text-lg font-semibold text-gray-700 mb-2">1. Chọn Mức Độ Khó:</label>
-                <div id="level-selection" class="flex flex-wrap gap-3">
-                    <button data-level="Biết" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-green-500 hover:text-white">
-                        Biết (Dễ)
-                    </button>
-                    <button data-level="Hiểu" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-yellow-500 hover:text-white">
-                        Hiểu (Trung bình)
-                    </button>
-                    <button data-level="Vận dụng" class="level-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white">
-                        Vận dụng (Khó)
-                    </button>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <span class="logo-icon">📤</span>
+                    <span class="logo-text">PLD CLI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#install">Install</a>
+                    <a href="#usage">Usage</a>
+                    <a href="https://github.com/laiduc1312209/pld-cli" target="_blank" class="btn-outline">GitHub</a>
                 </div>
             </div>
-            
-            <!-- 2. Chọn Loại Bài Tập -->
-            <div class="col-span-3 md:col-span-3">
-                <label class="block text-lg font-semibold text-gray-700 mb-2">2. Chọn Loại Bài Tập:</label>
-                <div id="type-selection" class="flex flex-wrap gap-3">
-                    <button data-type="Thực tế" class="type-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-teal-500 hover:text-white">
-                        Toán Thực Tế (Bài toán đố)
-                    </button>
-                    <button data-type="Phép tính" class="type-btn px-4 py-2 rounded-full font-medium transition duration-200 bg-gray-200 text-gray-700 hover:bg-teal-500 hover:text-white">
-                        Phép Tính Bình Thường
-                    </button>
-                </div>
-            </div>
+        </nav>
 
-            <!-- 3. Nhập Ngữ Cảnh Tùy Chỉnh -->
-            <div class="col-span-3">
-                <label for="context-input" class="block text-lg font-semibold text-gray-700 mb-2">3. Nhập Ngữ Cảnh (Tuỳ chọn - Chỉ áp dụng cho Toán Thực Tế):</label>
-                <input type="text" id="context-input" placeholder="Ví dụ: Ở trang trại, về trò chơi điện tử, về đồ vật học sinh..." 
-                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150">
-                <p class="text-sm text-gray-500 mt-1">Ngữ cảnh giúp bài toán hấp dẫn và gần gũi hơn với học sinh.</p>
-            </div>
-        </div>
-
-        <!-- NÚT TẠO BÀI TẬP VÀ QUIZ (Cập nhật bố cục) -->
-        <div class="flex flex-col lg:flex-row gap-4">
-            <button id="generate-btn" 
-                    class="choice-btn w-full lg:w-1/2 flex items-center justify-center space-x-2 px-6 py-3 bg-indigo-600 text-white text-xl font-bold rounded-xl hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                    <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06l-6.22-6.22V20.5a.75.75 0 0 1-1.5 0V4.81l-6.22 6.22a.75.75 0 1 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
-                </svg>
-                <span>Tạo Bài Tập Chi Tiết</span>
-            </button>
-            <!-- Nút Tạo Quiz -->
-            <button id="quiz-btn" 
-                    class="choice-btn w-full lg:w-1/2 flex items-center justify-center space-x-2 px-6 py-3 bg-purple-600 text-white text-xl font-bold rounded-xl hover:bg-purple-700 transition duration-300 transform hover:scale-[1.01] shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                    <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 7.5H19.5a.75.75 0 0 1 .581 1.258l-10.75 14.25a.75.75 0 0 1-1.127-.25l-.847-2.094a.75.75 0 0 1 .442-.984l.732-.293H9.75a.75.75 0 0 1 .581 1.259l-2.001 2.668 10.05-13.4a.75.75 0 0 1-.359-.852l1.282-4.269 1.282 4.269a.75.75 0 0 1-.359.852l-1.282 4.269L5.438 18.258a.75.75 0 0 1-1.127-.25L3.461 15.91a.75.75 0 0 1 .442-.984l.732-.293H4.5a.75.75 0 0 1 .581 1.259l2.001 2.668 10.05-13.4Z" clip-rule="evenodd" />
-                </svg>
-                <span>Tạo QUIZ (Trắc nghiệm)</span>
-            </button>
-        </div>
-        
-        <!-- KHU VỰC KẾT QUẢ VÀ THÔNG BÁO -->
-        <div id="status-message" class="text-center mt-4 text-sm font-medium text-red-600 hidden"></div>
-        <div id="loading-indicator" class="flex justify-center items-center h-16 mt-8 hidden">
-            <div class="loading-animation"></div>
-            <!-- Cập nhật thông báo tải chi tiết -->
-            <span class="ml-3 text-lg font-medium text-indigo-600">Đang soạn đề và lời giải... Vui lòng chờ.</span>
-        </div>
-        
-        <!-- KHU VỰC HIỂN THỊ BÀI TẬP - UI TRỰC QUAN HƠN -->
-        <div id="result-area" class="mt-8 pt-6 border-t-2 border-dashed border-gray-300 hidden">
-            <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex justify-between items-center">
-                <span>Bài Tập Đã Tạo (Loại: Chi tiết)</span>
-                <span id="level-badge" class="px-3 py-1 text-sm font-semibold rounded-full"></span>
-            </h2>
-
-            <!-- Problem Box Enhancement: Nổi bật hơn với viền dày và font serif -->
-            <div class="bg-white p-5 rounded-xl border-4 border-indigo-400 shadow-lg mb-6">
-                <h3 class="text-xl font-extrabold text-indigo-700 border-b pb-2 mb-3 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75H16.5a.75.75 0 0 0 0-1.5H12.75V6Z" clip-rule="evenodd" />
+        <div class="container hero-content">
+            <div class="badges-row">
+                <div class="badge">Fast • Secure • Beautiful</div>
+                <div class="badge badge-opensource">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px;">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                     </svg>
-                    <span>Đề Bài (Mức: <span id="current-level" class="text-indigo-500"></span>)</span>
-                </h3>
-                <p id="problem-text" class="text-gray-900 text-xl leading-relaxed whitespace-pre-wrap"></p>
+                    Open Source
+                </div>
+            </div>
+            <h1 class="hero-title">
+                Share Files in <span class="gradient-text">Seconds</span>
+            </h1>
+            <p class="hero-description">
+                A premium command-line tool for instant file uploads. Beautiful terminal UI, automatic clipboard
+                integration, and seamless sharing.
+            </p>
+            <div class="service-badges">
+                <div class="service-badge">
+                    <span class="service-icon">📁</span>
+                    <span>Gofile</span>
+                </div>
+                <div class="service-badge">
+                    <span class="service-icon">💾</span>
+                    <span>Pixeldrain</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#install" class="btn-primary">
+                    <span>Get Started</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+                <a href="#demo" class="btn-secondary">
+                    <span>Watch Demo</span>
+                </a>
             </div>
 
-            <!-- Solution Box Enhancement: Màu xanh lá nổi bật, có tiêu đề bước giải -->
-            <details class="bg-white border-2 border-green-500 rounded-xl overflow-hidden shadow-lg">
-                <summary class="p-4 bg-green-50 cursor-pointer text-green-700 text-xl font-bold transition duration-150 hover:bg-green-100 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.037 2.036a.75.75 0 0 0 1.06-.01l3.77-5.28Z" clip-rule="evenodd" />
-                    </svg>
-                    <span>Xem Lời Giải Chi Tiết</span>
-                </summary>
-                <div class="p-5 border-t border-green-200 bg-green-50/50">
-                    <h4 class="text-lg font-bold text-green-800 mb-2 border-b border-green-300 pb-1">Các Bước Giải:</h4>
-                    <p id="solution-text" class="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap"></p>
-                </div>
-            </details>
-        </div>
-        
-    </div>
-
-    <!-- QUIZ MODAL (POP UP FULL MÀN HÌNH - ĐÃ MỞ RỘNG) -->
-    <div id="quiz-modal" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
-        <!-- Đã đổi max-w-2xl thành max-w-4xl và h-[90vh] thành h-[95vh] -->
-        <div class="bg-white rounded-xl w-full max-w-4xl p-6 md:p-10 relative h-[95vh] flex flex-col">
-            <!-- Close Button -->
-            <button id="close-quiz-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <h2 class="text-3xl font-extrabold text-purple-700 text-center mb-6 border-b-2 border-purple-200 pb-3">Trắc Nghiệm Toán Học</h2>
-            
-            <!-- Quiz Content Area -->
-            <div id="quiz-content" class="flex-grow overflow-y-auto">
-                <!-- Loading/Quiz Content will go here -->
-                <div id="quiz-loading" class="flex flex-col justify-center items-center h-full hidden">
-                    <div class="loading-animation border-purple-500"></div>
-                    <!-- Cập nhật thông báo tải Quiz -->
-                    <span class="mt-3 text-lg font-medium text-purple-600">Đang tính toán... Chỉ vài giây nữa thôi!</span>
-                </div>
-
-                <div id="quiz-question-area" class="hidden">
-                    <!-- Question -->
-                    <div class="mb-6 bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500 shadow-md">
-                        <p class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
-                             <span class="text-2xl">💡</span>
-                             <span>Đề bài (Mức: <span id="quiz-level" class="font-bold text-purple-600"></span>):</span>
-                        </p>
-                        <p id="quiz-problem-text" class="text-2xl font-serif text-gray-900 leading-snug"></p>
+            <!-- Terminal Demo -->
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="btn-close"></span>
+                        <span class="btn-minimize"></span>
+                        <span class="btn-maximize"></span>
                     </div>
+                    <div class="terminal-title">PowerShell</div>
+                </div>
+                <div class="terminal-body">
+                    <img src="banner.png" alt="PLD CLI Banner" class="terminal-banner">
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Choices -->
-                    <div id="quiz-choices" class="space-y-4">
-                        <!-- Buttons will be injected here -->
+    <!-- Installation Section -->
+    <section id="install" class="installation">
+        <div class="container">
+            <h2 class="section-title">Quick Installation</h2>
+            <p class="section-description">Get started in seconds</p>
+
+            <div class="install-methods">
+                <div class="install-card active">
+                    <div class="install-header">
+                        <div class="install-icon">🪣</div>
+                        <div>
+                            <h3>Scoop (Recommended)</h3>
+                            <p>Windows package manager</p>
+                        </div>
+                    </div>
+                    <p style="margin: 12px 16px 8px; font-size: 14px; color: #94a3b8;">If Scoop is not installed, run
+                        these first:</p>
+                    <div class="code-block" style="margin: 0 16px 8px;">
+                        <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="code-block" style="margin: 0 16px 12px;">
+                        <code>Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression</code>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p style="margin: 12px 16px 8px; font-size: 14px; color: #94a3b8;">Then install PLD CLI:</p>
+                    <div class="code-block" style="margin: 0 16px 16px;">
+                        <code>scoop install pld-cli</code>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Feedback Area -->
-                <div id="quiz-feedback" class="mt-6 p-4 rounded-lg text-center font-bold text-xl hidden transition-all duration-300"></div>
+                <div class="install-card">
+                    <div class="install-header">
+                        <div class="install-icon">📥</div>
+                        <div>
+                            <h3>Manual Install</h3>
+                            <p>Clone from GitHub</p>
+                        </div>
+                    </div>
+                    <div class="code-block">
+                        <code>git clone https://github.com/laiduc1312209/pld-cli.git && cd pld-cli && npm install</code>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Footer Button -->
-            <div class="mt-6 border-t pt-4">
-                <button id="quiz-next-btn" class="w-full px-6 py-3 bg-purple-600 text-white text-lg font-bold rounded-lg hover:bg-purple-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
-                    Tạo Câu Hỏi Mới
-                </button>
+            <div class="setup-steps">
+                <div class="step">
+                    <div class="step-number">0</div>
+                    <div class="step-content">
+                        <h4>Install Scoop (if not installed)</h4>
+                        <p style="margin-bottom: 8px;">Run in PowerShell:</p>
+                        <div class="code-block" style="margin-bottom: 12px;">
+                            <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p style="margin-bottom: 8px;">Then:</p>
+                        <div class="code-block">
+                            <code>Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression</code>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Install PLD CLI</h4>
+                        <p>Choose your preferred method above</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Configure API Key</h4>
+                        <p>Run <code>pld --config</code> to set up</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Start Sharing</h4>
+                        <p>Upload files with <code>pld -s &lt;file&gt;</code></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script type="module">
-        // Các hằng số và biến toàn cục
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-        const apiKey = "AIzaSyCiHJhV9T26xfojNPqrQqvsRRfv1f5xrgU"; // API Key sẽ được tự động cung cấp trong môi trường Canvas
-        const contextInput = document.getElementById('context-input');
-        const generateBtn = document.getElementById('generate-btn');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const statusMessage = document.getElementById('status-message');
-        const resultArea = document.getElementById('result-area');
-        const problemText = document.getElementById('problem-text');
-        const solutionText = document.getElementById('solution-text');
-        const currentLevelSpan = document.getElementById('current-level');
-        const levelBadge = document.getElementById('level-badge');
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-description">Everything you need for seamless file sharing</p>
 
-        // Biến và DOM cho Quiz
-        const quizBtn = document.getElementById('quiz-btn');
-        const quizModal = document.getElementById('quiz-modal');
-        const closeQuizBtn = document.getElementById('close-quiz-btn');
-        const quizLoading = document.getElementById('quiz-loading');
-        const quizQuestionArea = document.getElementById('quiz-question-area');
-        const quizProblemText = document.getElementById('quiz-problem-text');
-        const quizChoicesDiv = document.getElementById('quiz-choices');
-        const quizFeedback = document.getElementById('quiz-feedback');
-        const quizNextBtn = document.getElementById('quiz-next-btn');
-        const quizLevelSpan = document.getElementById('quiz-level');
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Upload files instantly with streaming support for large files. Real-time progress tracking and
+                        speed monitoring.</p>
+                </div>
 
-        let selectedLevel = 'Biết'; // Mức độ mặc định
-        let selectedType = 'Thực tế'; // Loại bài tập mặc định
-        let isAnswered = false; // Trạng thái đã trả lời của Quiz hiện tại
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful UI</h3>
+                    <p>Gorgeous terminal interface with colors, animations, and smooth progress indicators that make
+                        uploads enjoyable.</p>
+                </div>
 
-        // 1. Cấu hình các mức độ khó
-        const levelConfigs = {
-            "Biết": {
-                color: "bg-green-100 text-green-700",
-                description: "Tổng và Hiệu được cho rõ ràng. Tập trung vào công thức."
-            },
-            "Hiểu": {
-                color: "bg-yellow-100 text-yellow-700",
-                description: "Tổng được cho, Hiệu được suy luận từ câu so sánh trực tiếp."
-            },
-            "Vận dụng": {
-                color: "bg-red-100 text-red-700",
-                description: "Tổng hoặc Hiệu (hoặc cả hai) được lồng ghép trong tình huống thực tế, đòi hỏi phân tích."
-            }
-        };
+                <div class="feature-card">
+                    <div class="feature-icon">�</div>
+                    <h3>Auto Clipboard</h3>
+                    <p>Download links automatically copied to your clipboard. Just paste and share instantly anywhere.
+                    </p>
+                </div>
 
-        // 2. Định nghĩa cấu trúc JSON đầu ra mong muốn
-        const problemResponseSchema = {
-            type: "OBJECT",
-            properties: {
-                "problem": { "type": "STRING" },
-                "solution_steps": { "type": "STRING" },
-                "level": { "type": "STRING" }
-            },
-            propertyOrdering: ["problem", "solution_steps", "level"]
-        };
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Upload History</h3>
+                    <p>Track all your uploads with timestamps, file sizes, and download links. Never lose a shared file
+                        again.</p>
+                </div>
 
-        // 2b. Định nghĩa cấu trúc JSON đầu ra mong muốn cho QUIZ
-        const quizResponseSchema = {
-            type: "OBJECT",
-            properties: {
-                "problem": { "type": "STRING" },
-                "choices": { 
-                    "type": "ARRAY", 
-                    "items": { "type": "STRING" },
-                    "description": "4 đáp án trắc nghiệm."
-                },
-                "correct_index": { "type": "INTEGER", "description": "Chỉ mục (0-3) của đáp án đúng." },
-                "level": { "type": "STRING" }
-            },
-            propertyOrdering: ["problem", "choices", "correct_index", "level"]
-        };
-        
-        /**
-         * 3. Hàm tạo System Instruction cho bài tập Chi tiết
-         */
-        function createProblemSystemInstruction(level, context, type) {
-            const levelPrompt = levelConfigs[level].description;
-            
-            let typeInstruction;
-            let contextInstruction = "";
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure & Private</h3>
+                    <p>API keys stored locally and encrypted. All uploads use HTTPS. Your privacy is our priority.</p>
+                </div>
 
-            if (type === "Thực tế") {
-                typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh, sử dụng ngôn ngữ tiếng Việt chuẩn, thân thiện với học sinh.";
-                contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
-            } else { // Phép tính
-                // ĐÃ SỬA: Đảm bảo đề bài yêu cầu tìm một giá trị cụ thể để phù hợp với format bài giải
-                typeInstruction = "Đề bài PHẢI là một phép tính/câu hỏi trực tiếp, KHÔNG CÓ CÂU CHUYỆN ĐỐ. Ví dụ: 'Tìm số lớn/số bé, biết tổng X và hiệu Y'.";
-            }
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Memory Efficient</h3>
+                    <p>Handles files of any size without consuming excessive memory. Stream processing ensures smooth
+                        performance.</p>
+                </div>
 
-            return `
-                Bạn là một chuyên gia tạo đề bài toán tiểu học (lớp 4) tại Việt Nam theo chương trình SGK 2018.
-                Nhiệm vụ của bạn là tạo một bài toán DUY NHẤT VÀ CHI TIẾT về chủ đề "Tìm hai số khi biết Tổng và Hiệu".
-                
-                Quy tắc:
-                1. Mức độ khó: ${level} (${levelPrompt}).
-                2. Loại bài tập: ${type}. ${typeInstruction}
-                3. ${contextInstruction}
-                4. Cung cấp Lời giải chi tiết theo từng bước giải (Tóm tắt, Lời giải, Phép tính, Đáp số) như một giáo viên.
-                5. PHẢI tạo ra các số liệu hợp lý cho học sinh tiểu học (ví dụ: tổng không quá 1000, hiệu không quá 500).
-                
-                PHẢI trả về kết quả dưới định dạng JSON theo schema đã cung cấp.
-            `.trim();
-        }
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Dual Service Support</h3>
+                    <p>Choose between Gofile and Pixeldrain for uploads. Switch services easily with simple flags. Both
+                        platforms supported.</p>
+                </div>
 
-        /**
-         * 3b. Hàm tạo System Instruction cho Quiz Trắc nghiệm
-         */
-        function createQuizSystemInstruction(level, context, type) {
-            const levelPrompt = levelConfigs[level].description;
-            
-            let typeInstruction;
-            let contextInstruction = "";
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Open Source</h3>
+                    <p>Free and open-source software. Contribute, customize, and build upon it. Community-driven
+                        development on GitHub.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            if (type === "Thực tế") {
-                typeInstruction = "Đề bài PHẢI là một bài toán đố (word problem) hoàn chỉnh.";
-                contextInstruction = context ? `Đề bài PHẢI lồng ghép ngữ cảnh sau: "${context}".` : "";
-            } else { // Phép tính
-                // ĐÃ SỬA: Đảm bảo đề bài rõ ràng, và đáp án là các giá trị số học (numeric)
-                typeInstruction = "Đề bài PHẢI là câu hỏi trực tiếp, KHÔNG CÓ CÂU CHUYỆN ĐỐ. Ví dụ: 'Tìm số lớn/số bé, biết tổng X và hiệu Y'. Các đáp án (choices) PHẢI là các giá trị số học phù hợp với câu hỏi.";
-            }
+    <!-- Usage Section -->
+    <section id="usage" class="usage">
+        <div class="container">
+            <h2 class="section-title">Simple Usage</h2>
+            <p class="section-description">Powerful commands, intuitive interface</p>
 
-            return `
-                Bạn là một chuyên gia tạo đề bài toán tiểu học (lớp 4) tại Việt Nam theo chương trình SGK 2018.
-                Nhiệm vụ của bạn là tạo một BÀI TRẮC NGHIỆM DUY NHẤT (quiz) về chủ đề "Tìm hai số khi biết Tổng và Hiệu".
-                
-                Quy tắc:
-                1. Mức độ khó: ${level} (${levelPrompt}).
-                2. Loại bài tập: ${type}. ${typeInstruction}
-                3. ${contextInstruction}
-                4. PHẢI tạo ra 4 đáp án TRẮC NGHIỆM (Choices), trong đó chỉ có MỘT đáp án đúng (correct_index 0-3).
-                5. PHẢI tạo ra các số liệu hợp lý cho học sinh tiểu học (ví dụ: tổng không quá 1000, hiệu không quá 500).
-                
-                PHẢI trả về kết quả dưới định dạng JSON theo schema đã cung cấp.
-            `.trim();
-        }
-        
-        /**
-         * 4. Hàm xử lý logic gọi API chung (Chi tiết và Quiz)
-         */
-        async function fetchContentWithBackoff(level, context, type, isQuiz) {
-            let attempt = 0;
-            const maxAttempts = 3;
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <div class="usage-command">
+                        <span class="cmd-prompt">$</span>
+                        <code>pld --config</code>
+                    </div>
+                    <p>Configure your Pixeldrain or Gofile API key</p>
+                </div>
 
-            // Thiết lập trạng thái loading
-            const loader = isQuiz ? quizLoading : loadingIndicator;
-            const questionArea = isQuiz ? quizQuestionArea : resultArea;
-            const schema = isQuiz ? quizResponseSchema : problemResponseSchema;
-            const systemPromptFunc = isQuiz ? createQuizSystemInstruction : createProblemSystemInstruction;
-            const userQueryPrefix = isQuiz ? "câu hỏi trắc nghiệm" : "bài toán chi tiết";
+                <div class="usage-card">
+                    <div class="usage-command">
+                        <span class="cmd-prompt">$</span>
+                        <code>pld -s document.pdf</code>
+                    </div>
+                    <p>Upload a file to Gofile (default)</p>
+                </div>
 
-            loader.classList.remove('hidden');
-            questionArea.classList.add('hidden');
-            statusMessage.classList.add('hidden');
+                <div class="usage-card">
+                    <div class="usage-command">
+                        <span class="cmd-prompt">$</span>
+                        <code>pld -s photo.jpg pd</code>
+                    </div>
+                    <p>Upload a file to Pixeldrain specifically</p>
+                </div>
 
-            // Quản lý trạng thái nút riêng biệt (Đã fix lỗi)
-            if (isQuiz) {
-                quizNextBtn.disabled = true; 
-            } else {
-                generateBtn.disabled = true;
-            }
+                <div class="usage-card">
+                    <div class="usage-command">
+                        <span class="cmd-prompt">$</span>
+                        <code>pld --list</code>
+                    </div>
+                    <p>View your upload history</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            while (attempt < maxAttempts) {
-                try {
-                    const systemPrompt = systemPromptFunc(level, context, type);
-                    const userQuery = `Tạo một ${userQueryPrefix} Toán Tiểu học Việt Nam về chủ đề Tìm hai số khi biết Tổng và Hiệu ở mức độ "${level}", loại "${type}".`;
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Share Files Effortlessly?</h2>
+                <p>Join users who've made file sharing simple and beautiful</p>
+                <div class="cta-actions">
+                    <a href="#install" class="btn-primary">
+                        <span>Install Now</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/laiduc1312209/pld-cli" target="_blank" class="btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    const payload = {
-                        contents: [{ parts: [{ text: userQuery }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: {
-                            responseMimeType: "application/json",
-                            responseSchema: schema
-                        }
-                    };
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">📤</span>
+                        <span class="logo-text">PLD CLI</span>
+                    </div>
+                    <p>Fast, secure, and beautiful file sharing</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#install">Installation</a>
+                        <a href="#usage">Usage</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="https://github.com/laiduc1312209/pld-cli" target="_blank">GitHub</a>
+                        <a href="https://github.com/laiduc1312209/pld-cli/issues" target="_blank">Issues</a>
+                        <a href="https://github.com/laiduc1312209/pld-cli/blob/main/README.md"
+                            target="_blank">Documentation</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ for easy file sharing</p>
+                <p>MIT License © 2026</p>
+            </div>
+        </div>
+    </footer>
 
-                    const response = await fetch(`${API_URL}?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    const candidate = result.candidates?.[0];
-                    if (candidate && candidate.content?.parts?.[0]?.text) {
-                        const jsonString = candidate.content.parts[0].text;
-                        const parsedData = JSON.parse(jsonString);
-                        
-                        if (isQuiz) {
-                            displayQuiz(parsedData);
-                        } else {
-                            displayProblem(parsedData);
-                        }
-                        return; // Thành công, thoát vòng lặp
-                    } else {
-                        throw new Error("API response was valid but content structure was empty or unexpected.");
-                    }
-
-                } catch (error) {
-                    console.error(`Attempt ${attempt + 1} failed:`, error);
-                    attempt++;
-
-                    if (attempt < maxAttempts) {
-                        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                    } else {
-                        // Thất bại sau số lần thử tối đa
-                        statusMessage.textContent = "Không thể tạo bài tập. Vui lòng thử lại sau.";
-                        statusMessage.classList.remove('hidden');
-                    }
-                }
-            }
-            
-            // Ẩn loading và kích hoạt lại nút sau khi hoàn thành (hoặc thất bại)
-            loader.classList.add('hidden');
-            generateBtn.disabled = false; // Luôn đảm bảo nút chính được kích hoạt lại
-            if (isQuiz) quizNextBtn.disabled = false;
-        }
-
-        /**
-         * 5a. Hàm cập nhật giao diện kết quả bài tập Chi tiết
-         */
-        function displayProblem(data) {
-            const config = levelConfigs[data.level] || levelConfigs['Biết'];
-            currentLevelSpan.textContent = data.level;
-            levelBadge.textContent = data.level;
-            levelBadge.className = `px-3 py-1 text-sm font-semibold rounded-full ${config.color}`;
-            
-            problemText.textContent = data.problem;
-            solutionText.textContent = data.solution_steps;
-
-            resultArea.classList.remove('hidden');
-            loadingIndicator.classList.add('hidden');
-            generateBtn.disabled = false;
-        }
-
-        /**
-         * 5b. Hàm cập nhật giao diện Quiz
-         */
-        function displayQuiz(data) {
-            isAnswered = false;
-            quizLoading.classList.add('hidden');
-            quizQuestionArea.classList.remove('hidden');
-            quizFeedback.classList.add('hidden');
-            quizNextBtn.disabled = false;
-
-            quizLevelSpan.textContent = data.level;
-            quizProblemText.textContent = data.problem;
-            quizChoicesDiv.innerHTML = '';
-
-            const letters = ['A', 'B', 'C', 'D'];
-
-            data.choices.forEach((choice, index) => {
-                const button = document.createElement('button');
-                // Thêm styling thân thiện hơn cho Quiz
-                button.className = 'quiz-choice-btn w-full text-left p-4 rounded-xl border-2 border-purple-300 bg-purple-50 text-gray-800 font-bold transition duration-200 hover:bg-purple-300 hover:scale-[1.01] shadow-md';
-                button.innerHTML = `<span class="font-extrabold mr-2">${letters[index]}.</span> ${choice}`;
-                button.setAttribute('data-index', index);
-                button.onclick = () => handleAnswer(button, index, data.correct_index);
-                quizChoicesDiv.appendChild(button);
-            });
-            
-            quizNextBtn.onclick = startQuiz;
-        }
-
-        /**
-         * 5c. Xử lý logic chọn đáp án
-         */
-        function handleAnswer(clickedButton, selectedIndex, correctIndex) {
-            if (isAnswered) return;
-            isAnswered = true;
-
-            const allButtons = document.querySelectorAll('#quiz-choices .quiz-choice-btn');
-
-            allButtons.forEach(btn => {
-                btn.disabled = true;
-                btn.classList.remove('hover:bg-purple-300', 'hover:scale-[1.01]'); // Remove hover effects
-                
-                const index = parseInt(btn.getAttribute('data-index'));
-                
-                if (index === correctIndex) {
-                    // Đáp án đúng là màu xanh lá đậm
-                    btn.classList.add('bg-green-600', 'text-white', 'font-extrabold', 'shadow-xl', 'border-green-800');
-                    btn.classList.remove('bg-purple-50', 'bg-purple-200', 'border-purple-300', 'text-gray-800');
-                } else if (index === selectedIndex) {
-                    // Đáp án sai là màu đỏ đậm
-                    btn.classList.add('bg-red-600', 'text-white', 'font-extrabold', 'shadow-xl', 'border-red-800');
-                    btn.classList.remove('bg-purple-50', 'bg-purple-200', 'border-purple-300', 'text-gray-800');
-                }
-            });
-
-            // Hiển thị phản hồi với icon thân thiện
-            quizFeedback.classList.remove('hidden');
-            if (selectedIndex === correctIndex) {
-                quizFeedback.className = 'mt-6 p-4 rounded-lg text-center font-extrabold text-2xl bg-green-100 text-green-700 transition-all duration-300 border-2 border-green-400 flex items-center justify-center space-x-2';
-                quizFeedback.innerHTML = '<span>✅</span><span>Chính xác! Chúc mừng bạn đã nắm vững kiến thức.</span>';
-            } else {
-                quizFeedback.className = 'mt-6 p-4 rounded-lg text-center font-extrabold text-2xl bg-red-100 text-red-700 transition-all duration-300 border-2 border-red-400 flex items-center justify-center space-x-2';
-                const correctLetter = String.fromCharCode(65 + correctIndex);
-                quizFeedback.innerHTML = `<span>❌</span><span>Sai rồi. Đáp án đúng là ${correctLetter}. Bạn hãy ôn tập lại nhé!</span>`;
-            }
-        }
-
-        /**
-         * 6. Khởi tạo và Xử lý sự kiện
-         */
-
-        // Hàm khởi động Quiz
-        function startQuiz() {
-            quizModal.classList.remove('hidden');
-            const context = contextInput.value.trim();
-            fetchContentWithBackoff(selectedLevel, context, selectedType, true);
-        }
-
-        // Xử lý chọn mức độ (Level)
-        document.querySelectorAll('.level-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                document.querySelectorAll('.level-btn').forEach(btn => {
-                    btn.classList.remove('bg-indigo-600', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                selectedLevel = e.target.dataset.level;
-                e.target.classList.add('bg-indigo-600', 'text-white');
-                e.target.classList.remove('bg-gray-200', 'text-gray-700');
-            });
-        });
-
-        // Xử lý chọn loại bài tập (Type)
-        document.querySelectorAll('.type-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                document.querySelectorAll('.type-btn').forEach(btn => {
-                    btn.classList.remove('bg-teal-600', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                selectedType = e.target.dataset.type;
-                e.target.classList.add('bg-teal-600', 'text-white');
-                e.target.classList.remove('bg-gray-200', 'text-gray-700');
-
-                // Cập nhật trạng thái Ngữ cảnh
-                const isWordProblem = selectedType === "Thực tế";
-                document.getElementById('context-input').placeholder = isWordProblem 
-                    ? "Ví dụ: Ở trang trại, về trò chơi điện tử, về đồ vật học sinh..." 
-                    : "Ngữ cảnh không áp dụng cho Phép tính Bình thường.";
-                document.querySelector('label[for="context-input"]').textContent = isWordProblem
-                    ? "3. Nhập Ngữ Cảnh (Tuỳ chọn - Chỉ áp dụng cho Toán Thực Tế):"
-                    : "3. Nhập Ngữ Cảnh (Tuỳ chọn - Không áp dụng):";
-                
-                contextInput.disabled = !isWordProblem;
-                if (!isWordProblem) {
-                    contextInput.value = '';
-                }
-            });
-        });
-
-
-        // Chọn mức "Biết" và loại "Thực tế" mặc định khi tải trang
-        document.querySelector('[data-level="Biết"]').click();
-        document.querySelector('[data-type="Thực tế"]').click();
-
-
-        // Xử lý nút Tạo Bài Tập Chi tiết
-        generateBtn.addEventListener('click', () => {
-            const context = contextInput.value.trim();
-            if (!selectedLevel || !selectedType) {
-                statusMessage.textContent = "Vui lòng chọn Mức độ khó và Loại bài tập trước khi tạo.";
-                statusMessage.classList.remove('hidden');
-                return;
-            }
-            fetchContentWithBackoff(selectedLevel, context, selectedType, false);
-        });
-
-        // Xử lý nút Tạo Quiz
-        quizBtn.addEventListener('click', startQuiz);
-
-        // Xử lý nút Đóng Quiz Modal (ĐÃ SỬA LỖI 1)
-        closeQuizBtn.addEventListener('click', () => {
-            quizModal.classList.add('hidden');
-            // Đảm bảo nút tạo bài tập chi tiết được kích hoạt lại khi thoát quiz
-            generateBtn.disabled = false; 
-        });
-
-        // 7. Thao tác Firebase (Cần thiết để ứng dụng chạy trong Canvas)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        if (Object.keys(firebaseConfig).length > 0) {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-
-            async function authenticate() {
-                try {
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                        console.log("Đã đăng nhập bằng token tùy chỉnh.");
-                    } else {
-                        await signInAnonymously(auth);
-                        console.log("Đã đăng nhập ẩn danh.");
-                    }
-                } catch (error) {
-                    console.error("Lỗi xác thực Firebase:", error);
-                }
-            }
-            authenticate();
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>
