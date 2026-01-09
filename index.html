@@ -178,37 +178,12 @@ scoop install pld-cli</code>
                             <p>Clone from GitHub</p>
                         </div>
                     </div>
-                    <p style="margin: 12px 16px 8px; font-size: 14px; color: #94a3b8;">Copy and run in PowerShell
-                        (auto-installs Git & Node.js if needed):</p>
+                    <p style="margin: 12px 16px 8px; font-size: 14px; color: #94a3b8;">Requires: <a
+                            href="https://nodejs.org" target="_blank" style="color: #60a5fa;">Node.js</a> & <a
+                            href="https://git-scm.com" target="_blank" style="color: #60a5fa;">Git</a></p>
                     <div class="code-block" style="margin: 0 16px 16px;">
-                        <code style="white-space: pre-wrap; display: block;"># Check if Scoop is installed
-if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
-    Write-Host "Installing Scoop..." -ForegroundColor Cyan
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-}
-
-# Check if Git is installed, install if not
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-    Write-Host "Git not found. Installing via Scoop..." -ForegroundColor Yellow
-    scoop install git
-} else {
-    Write-Host "Git is already installed." -ForegroundColor Green
-}
-
-# Check if Node.js is installed, install if not
-if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
-    Write-Host "Node.js not found. Installing via Scoop..." -ForegroundColor Yellow
-    scoop install nodejs
-} else {
-    Write-Host "Node.js is already installed." -ForegroundColor Green
-}
-
-# Clone and install PLD CLI
-git clone https://github.com/laiduc1312209/pld-cli.git
-cd pld-cli
-npm install
-npm link</code>
+                        <code
+                            style="white-space: pre-wrap; display: block;">git clone https://github.com/laiduc1312209/pld-cli.git && cd pld-cli && npm install -g</code>
                         <button class="copy-btn" onclick="copyCode(this)">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
